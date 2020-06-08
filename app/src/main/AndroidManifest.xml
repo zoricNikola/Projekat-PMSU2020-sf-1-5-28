@@ -13,5 +13,9 @@
         <activity android:name=".activities.emailActivities.EmailsActivity"/>
         <activity android:name=".activities.settingActivities.SettingsActivity"/>
         <activity android:name=".activities.emailActivities.CreateEmailActivity" />
+        <activity android:name=".activities.splash.SplashActivity" />
+        <activity android:name=".activities.folderActivities.FoldersActivity"/>
+        <activity android:name=".activities.emailActivities.EmailActivity" />
+        <activity android:name=".activities.contactActivities.CreateContactActivity" />
     </application>
 </manifest>
