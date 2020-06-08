@@ -3,11 +3,14 @@ package com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
+import com.example.projekat_pmsu2020_sf_1_5_28.R;
+
 public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
     }
 
     @Override
