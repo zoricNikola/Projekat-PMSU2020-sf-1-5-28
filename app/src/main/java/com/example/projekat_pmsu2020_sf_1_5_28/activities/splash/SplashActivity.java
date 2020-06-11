@@ -1,6 +1,9 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.splash;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -19,8 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         if(isOnline()){
-            int splashTime = 1000;
-
+            int splashTime = 5000;
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -35,7 +37,17 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     protected boolean isOnline(){
-        return true;
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        else {
+            connected = false;
+        }
+        return connected;
     }
 
     @Override
