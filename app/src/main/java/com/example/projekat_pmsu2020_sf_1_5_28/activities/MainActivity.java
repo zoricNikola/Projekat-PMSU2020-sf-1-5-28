@@ -1,5 +1,6 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.Menu;
@@ -9,20 +10,30 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
+import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
+import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailsFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+                                                            EmailsAdapter.OnEmailItemListener {
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private boolean appStarting;
+
+    private Fragment mEmailsFragment;
+    public Fragment currentFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setToolbar();
         setNavigationDrawer();
+        mEmailsFragment = EmailsFragment.newInstance();
 
         appStarting = true;
     }
@@ -96,7 +108,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void startEmailsFragment() {
-        appStarting = false;
+        boolean addToBackStack = true;
+        if (appStarting) {
+            addToBackStack = false;
+            appStarting = false;
+        }
+        FragmentTransition.to(mEmailsFragment, MainActivity.this, addToBackStack);
     }
 
     @Override
@@ -133,5 +150,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onUserAvatarClick(View view) {
         Toast.makeText(MainActivity.this, "User avatar clicked", Toast.LENGTH_LONG).show();
         mDrawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onEmailItemClick(int position) {
+        Toast.makeText(MainActivity.this, "Email " + position, Toast.LENGTH_LONG).show();
     }
 }
