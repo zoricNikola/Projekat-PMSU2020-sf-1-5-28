@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="pref_sync"
+        android:title="@string/pref_sync_title"
+        android:icon="@drawable/ic_sync"
+        android:summary="%s"
+        android:dialogTitle="@string/pref_sync_title"
+        android:entries="@array/refreshTimesEntries"
+        android:entryValues="@array/refreshTimesValues"
+        android:defaultValue="@string/refreshTimeDefaultValue"/>
+
+    <ListPreference
+        android:key="pref_sort"
+        android:title="@string/SortEmails"
+        android:icon="@drawable/ic_sort"
+        android:summary="%s"
+        android:dialogTitle="@string/SortEmails"
+        android:entries="@array/sortEmailsEntriesAndValues"
+        android:entryValues="@array/sortEmailsEntriesAndValues"
+        android:defaultValue="@string/sortEmailsDefaultValue"/>
+
+</PreferenceScreen>

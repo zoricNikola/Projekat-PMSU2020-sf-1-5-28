@@ -16,4 +16,6 @@
     <string name="Compose">Compose</string>
     <string name="Send">Send</string>
     <string name="Attachment">Attachment</string>
+    <string name="pref_sync_title">Refresh emails interval</string>
+    <string name="SortEmails">Sort emails</string>
 </resources>

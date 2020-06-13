@@ -19,96 +19,111 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutEmailFrom"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@color/perfectDark">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputEmailFrom"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutEmailFrom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/From"
-            android:textSize="16sp"
-            android:inputType="text|textEmailAddress"
-            android:nextFocusForward="@id/inputEmailTo" />
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmailFrom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/From"
+                android:textSize="16sp"
+                android:inputType="text|textEmailAddress"
+                android:nextFocusForward="@id/inputEmailTo"
+                android:background="@color/perfectDark"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutEmailTo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputEmailTo"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutEmailTo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/To"
-            android:textSize="16sp"
-            android:inputType="text|textEmailAddress"/>
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmailTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/To"
+                android:textSize="16sp"
+                android:inputType="text|textEmailAddress"
+                android:background="@color/perfectDark"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutEmailCC"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputEmailCC"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutEmailCC"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/CC"
-            android:textSize="16sp"
-            android:inputType="text|textEmailAddress"/>
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmailCC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/CC"
+                android:textSize="16sp"
+                android:inputType="text|textEmailAddress"
+                android:background="@color/perfectDark"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutEmailBCC"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputEmailBCC"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutEmailBCC"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/BCC"
-            android:textSize="16sp"
-            android:inputType="text|textEmailAddress"/>
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmailBCC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/BCC"
+                android:textSize="16sp"
+                android:inputType="text|textEmailAddress"
+                android:background="@color/perfectDark"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutEmailSubject"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputEmailSubject"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutEmailSubject"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/Subject"
-            android:textSize="16sp"
-            android:inputType="text|textEmailSubject"/>
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmailSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Subject"
+                android:textSize="16sp"
+                android:inputType="text|textEmailSubject"
+                android:background="@color/perfectDark"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutEmailContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputEmailContent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutEmailContent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/Content"
-            android:textSize="16sp"
-            android:gravity="top"
-            android:inputType="text|textImeMultiLine" />
+            android:layout_height="match_parent">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmailContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/Content"
+                android:textSize="16sp"
+                android:gravity="top"
+                android:inputType="text|textImeMultiLine"
+                android:background="@color/perfectDark"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

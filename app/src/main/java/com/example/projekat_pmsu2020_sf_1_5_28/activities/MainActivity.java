@@ -1,5 +1,6 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -18,6 +19,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities.CreateEmailActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailsFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
@@ -97,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     // contacts
                     break;
                 case R.id.item_settings:
-                    // settings
+                    startSettingsActivity();
                     break;
             }
         }
@@ -114,6 +117,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             appStarting = false;
         }
         FragmentTransition.to(mEmailsFragment, MainActivity.this, addToBackStack);
+    }
+
+    private void startSettingsActivity() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     @Override
