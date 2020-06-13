@@ -7,4 +7,13 @@
     <string name="Contacts">Contacts</string>
     <string name="Settings">Settings</string>
     <string name="Search">Search</string>
+    <string name="From">From</string>
+    <string name="To">To</string>
+    <string name="CC">CC</string>
+    <string name="BCC">BCC</string>
+    <string name="Subject">Subject</string>
+    <string name="Content">Content</string>
+    <string name="Compose">Compose</string>
+    <string name="Send">Send</string>
+    <string name="Attachment">Attachment</string>
 </resources>

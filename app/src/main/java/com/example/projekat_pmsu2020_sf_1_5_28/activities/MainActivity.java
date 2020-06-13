@@ -157,4 +157,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onEmailItemClick(int position) {
         Toast.makeText(MainActivity.this, "Email " + position, Toast.LENGTH_LONG).show();
     }
+
 }

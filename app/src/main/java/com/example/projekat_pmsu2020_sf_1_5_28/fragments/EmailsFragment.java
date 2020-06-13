@@ -1,5 +1,6 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.fragments;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,10 +8,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,8 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities.CreateEmailActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.login.LoginActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.splash.SplashActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class EmailsFragment extends Fragment {
 
@@ -44,12 +51,22 @@ public class EmailsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fabEmail);
+        fab.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startCreateEmailActivity();
+            }
+        });
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.toolbar_menu, menu);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -57,5 +74,11 @@ public class EmailsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ( (MainActivity) getActivity()).currentFragment = this;
+    }
+
+    public void startCreateEmailActivity() {
+        Toast.makeText(getActivity(), "Create email", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getActivity(), CreateEmailActivity.class);
+        startActivity(intent);
     }
 }
