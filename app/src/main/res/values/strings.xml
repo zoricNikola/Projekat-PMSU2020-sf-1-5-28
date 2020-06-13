@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Projekat-PMSU2020-sf-1-5-28</string>
+    <string name="app_name">Projekat PMSU2020 sf 1 5 28</string>
+    <string name="User">User</string>
+    <string name="Email">Email</string>
+    <string name="Emails">Emails</string>
+    <string name="Folders">Folders</string>
+    <string name="Contacts">Contacts</string>
+    <string name="Settings">Settings</string>
+    <string name="Search">Search</string>
 </resources>
