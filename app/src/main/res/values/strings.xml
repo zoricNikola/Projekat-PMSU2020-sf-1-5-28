@@ -18,4 +18,13 @@
     <string name="Attachment">Attachment</string>
     <string name="pref_sync_title">Refresh emails interval</string>
     <string name="SortEmails">Sort emails</string>
+    <string name="sender">Sender</string>
+    <string name="DateTimeExample">2020-02-02 10:00</string>
+    <string name="sender_email">sender@gmail.com</string>
+    <string name="CCExamle">sender@gmail.com</string>
+    <string name="BCCExample">sender_bcc@gmail.com</string>
+    <string name="EmailToExample">receiver@gmail.com</string>
+    <string name="delete">Delete</string>
+    <string name="move_to">Move to</string>
+    <string name="change_tags">Change tags</string>
 </resources>

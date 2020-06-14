@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardEmail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    card_view:cardBackgroundColor="@color/perfectDark">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/emailSubject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="25sp"
+            android:text="@string/Subject"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/emailLabelsHolder"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/emailSubject"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"/>
+
+        <RelativeLayout
+            android:id="@+id/emailDetailsHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emailLabelsHolder"
+            android:layout_marginTop="30dp">
+
+            <ImageView
+                android:id="@+id/contact_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_user"/>
+
+            <TextView
+            android:id="@+id/senderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/contact_icon"
+            android:padding="2dp"
+            android:text="@string/sender"/>
+
+            <TextView
+                android:id="@+id/emailDateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:padding="3dp"
+                android:text="@string/DateTimeExample"/>
+
+            <TextView
+                android:id="@+id/labelFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:layout_below="@id/senderName"
+                android:layout_toEndOf="@id/contact_icon"
+                android:padding="2dp"
+                android:text="@string/From"/>
+
+            <TextView
+                android:id="@+id/emailFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:layout_below="@id/senderName"
+                android:layout_toEndOf="@id/labelFrom"
+                android:padding="2dp"
+                android:text="@string/sender_email"
+                android:layout_marginStart="5dp"/>
+
+            <TextView
+                android:id="@+id/labelCC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:layout_below="@id/labelFrom"
+                android:layout_toEndOf="@id/contact_icon"
+                android:padding="2dp"
+                android:text="@string/CC" />
+
+            <TextView
+                android:id="@+id/emailCC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:layout_below="@id/emailFrom"
+                android:layout_toEndOf="@id/labelCC"
+                android:layout_alignStart="@id/emailFrom"
+                android:padding="2dp"
+                android:text="@string/CCExamle" />
+
+            <TextView
+                android:id="@+id/labelBCC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:layout_below="@id/labelCC"
+                android:layout_toEndOf="@id/contact_icon"
+                android:padding="2dp"
+                android:text="@string/BCC" />
+
+            <TextView
+                android:id="@+id/emailBCC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:layout_below="@id/emailCC"
+                android:layout_toEndOf="@id/labelBCC"
+                android:layout_alignStart="@id/emailFrom"
+                android:padding="2dp"
+                android:text="@string/BCCExample" />
+
+            <TextView
+                android:id="@+id/labelTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:layout_below="@id/labelBCC"
+                android:layout_toEndOf="@id/contact_icon"
+                android:padding="2dp"
+                android:text="@string/To" />
+
+            <TextView
+                android:id="@+id/emailTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:layout_below="@id/emailBCC"
+                android:layout_toEndOf="@id/labelTo"
+                android:layout_alignStart="@id/emailFrom"
+                android:padding="2dp"
+                android:text="@string/EmailToExample" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/emailContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/emailDetailsHolder"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="17sp"
+            android:text="@string/Content"/>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

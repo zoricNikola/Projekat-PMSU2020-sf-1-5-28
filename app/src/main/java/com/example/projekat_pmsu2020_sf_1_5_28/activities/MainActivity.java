@@ -22,6 +22,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities.CreateEmailActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
+import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailsFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
@@ -137,7 +138,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (id) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                if(currentFragment instanceof EmailsFragment)
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                else
+                    super.onBackPressed();
                 return true;
             case R.id.item_search:
                 Toast.makeText(MainActivity.this, "Search clicked", Toast.LENGTH_LONG).show();
@@ -164,6 +168,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onEmailItemClick(int position) {
         Toast.makeText(MainActivity.this, "Email " + position, Toast.LENGTH_LONG).show();
+        Bundle emailData = new Bundle();
+        emailData.putSerializable("email", Mokap.getEmails().get(position));
+        EmailFragment emailFragment = EmailFragment.newInstance();
+        emailFragment.setArguments(emailData);
+        FragmentTransition.to(emailFragment, MainActivity.this, true);
     }
 
 }
