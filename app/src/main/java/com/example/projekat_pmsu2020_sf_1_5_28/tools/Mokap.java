@@ -4,6 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
 
 import java.time.LocalDateTime;
@@ -91,5 +92,38 @@ public class Mokap {
 
 
         return emails;
+    }
+
+    public static List<Contact> getContacts() {
+        ArrayList<Contact> contacts = new ArrayList<>();
+
+
+        Contact c1 = new Contact("Nikola","Zoric","Nikola Z.", "nikola.zoric@gmail.com");
+        Contact c2 = new Contact("Stefan", "Kockar","Stefan K.", "stefan.kockar@gmai.com");
+        Contact c3 = new Contact("Boris", "Jankovic", "Boris J.", "boris.jankovic@gmail.com");
+        Contact c4 = new Contact("Nikola","Zoric","Nikola Z.", "nikola.zoric@gmail.com");
+        Contact c5 = new Contact("Stefan", "Kockar","Stefan K.", "stefan.kockar@gmai.com");
+        Contact c6 = new Contact("Boris", "Jankovic", "Boris J.", "boris.jankovic@gmail.com");
+        Contact c7 = new Contact("Nikola","Zoric","Nikola Z.", "nikola.zoric@gmail.com");
+        Contact c8 = new Contact("Stefan", "Kockar","Stefan K.", "stefan.kockar@gmai.com");
+        Contact c9 = new Contact("Boris", "Jankovic", "Boris J.", "boris.jankovic@gmail.com");
+        Contact c10 = new Contact("Nikola","Zoric","Nikola Z.", "nikola.zoric@gmail.com");
+        Contact c11 = new Contact("Stefan", "Kockar","Stefan K.", "stefan.kockar@gmai.com");
+        Contact c12 = new Contact("Boris", "Jankovic", "Boris J.", "boris.jankovic@gmail.com");
+
+        contacts.add(c1);
+        contacts.add(c2);
+        contacts.add(c3);
+        contacts.add(c4);
+        contacts.add(c5);
+        contacts.add(c6);
+        contacts.add(c7);
+        contacts.add(c8);
+        contacts.add(c9);
+        contacts.add(c10);
+        contacts.add(c11);
+        contacts.add(c12);
+
+        return contacts;
     }
 }

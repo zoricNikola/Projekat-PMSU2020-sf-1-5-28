@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities.CreateEmailActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.adapters.ContactsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailsFragment;
@@ -29,7 +30,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-                                                            EmailsAdapter.OnEmailItemListener {
+                                                            EmailsAdapter.OnEmailItemListener, ContactsAdapter.OnContactItemListener {
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -175,4 +176,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransition.to(emailFragment, MainActivity.this, true);
     }
 
+    @Override
+    public void onContactItemClick(int position) {
+        Toast.makeText(MainActivity.this, "Contact " + position, Toast.LENGTH_LONG).show();
+    }
 }
