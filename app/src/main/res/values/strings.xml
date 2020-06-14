@@ -27,4 +27,8 @@
     <string name="delete">Delete</string>
     <string name="move_to">Move to</string>
     <string name="change_tags">Change tags</string>
+    <string name="Login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
 </resources>
