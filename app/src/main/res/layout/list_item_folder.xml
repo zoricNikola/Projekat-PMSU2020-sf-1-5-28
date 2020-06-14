@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/cardFolderItemList"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="10dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardBackgroundColor="@color/perfectDark"
+    android:elevation="5dp">
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="11dp">
+
+        <RelativeLayout
+            android:id="@+id/folderLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/folderImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_folder_big"
+                android:layout_margin="5dp"
+                android:layout_centerInParent="true"/>
+            <TextView
+                android:id="@+id/folderCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/NumberTen"
+                android:textSize="20sp"
+                android:layout_centerInParent="true"/>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/folderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:layout_below="@id/folderLayout"
+            android:layout_centerHorizontal="true"
+            android:padding="2dp"
+            android:text="@string/folder_name"
+            />
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+</com.google.android.material.card.MaterialCardView>
+
+

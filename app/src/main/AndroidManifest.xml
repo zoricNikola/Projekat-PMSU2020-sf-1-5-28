@@ -20,7 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.folderActivities.FoldersActivity"/>
         <activity android:name=".activities.contactActivities.CreateContactActivity" />
         <activity android:name=".activities.profile.ProfileActivity" />
         <activity android:name=".activities.login.LoginActivity" />

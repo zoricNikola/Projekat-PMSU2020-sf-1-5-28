@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -125,5 +126,24 @@ public class Mokap {
         contacts.add(c12);
 
         return contacts;
+    }
+
+    public static List<Folder> getFolders() {
+        ArrayList<Folder> folders = new ArrayList<>();
+        Folder f1 = new Folder("Folder 1");
+        Folder f2 = new Folder("Folder 2");
+        Folder f3 = new Folder("Folder 3");
+        Folder f4 = new Folder("Folder 4");
+        Folder f5 = new Folder("Folder 5");
+        Folder f6 = new Folder("Folder 6");
+
+        folders.add(f1);
+        folders.add(f2);
+        folders.add(f3);
+        folders.add(f4);
+        folders.add(f5);
+        folders.add(f6);
+
+        return folders;
     }
 }
