@@ -7,7 +7,7 @@
     android:background="@color/perfectDark"
     android:padding="16dp">
 
-    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Login"
