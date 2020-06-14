@@ -8,5 +8,6 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/startup" />
+        app:srcCompat="@drawable/startup"
+        android:background="@android:color/white"/>
 </LinearLayout>
