@@ -24,6 +24,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.Sett
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.ContactsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.FoldersAdapter;
+import com.example.projekat_pmsu2020_sf_1_5_28.fragments.ContactsFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailsFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.FoldersFragment;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Fragment mEmailsFragment;
     private Fragment mFoldersFragment;
-    public Fragment currentFragment;
+    private Fragment currentFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,11 +60,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        navigationItemClicked(R.id.item_emails);
+        if (appStarting)
+            navigationItemClicked(R.id.item_emails);
     }
 
     private void setToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -71,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setNavigationDrawer() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mNavigationView = (NavigationView) findViewById(R.id.navigationView);
+        mDrawerLayout = findViewById(R.id.drawerLayout);
+        mNavigationView = findViewById(R.id.navigationView);
         mNavigationView.setNavigationItemSelectedListener(this);
 
     }
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startFoldersFragment();
                     break;
                 case R.id.item_contacts:
-                    // contacts
+                    startContactsFragment();
                     break;
                 case R.id.item_settings:
                     startSettingsActivity();
@@ -127,11 +129,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void  startFoldersFragment() {
         boolean addToBackStack = true;
-        if (appStarting) {
-            addToBackStack = false;
-            appStarting = false;
-        }
         FragmentTransition.to(mFoldersFragment, MainActivity.this,addToBackStack);
+    }
+
+    private void startContactsFragment() {
+        FragmentTransition.to(new ContactsFragment(), MainActivity.this, true);
     }
 
     private void startSettingsActivity() {
@@ -152,7 +154,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (id) {
             case android.R.id.home:
-                if(currentFragment instanceof EmailsFragment)
+                if(currentFragment instanceof EmailsFragment ||
+                    currentFragment instanceof ContactsFragment ||
+                    currentFragment instanceof FoldersFragment)
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 else
                     super.onBackPressed();
@@ -202,6 +206,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        FoldersFragment foldersFragment = (FoldersFragment) FoldersFragment.newInstance();
 //        foldersFragment.setArguments(folderData);
 //        FragmentTransition.to(foldersFragment, MainActivity.this, true);
+
+    }
+
+    public void setCurrentFragment(Fragment currentFragment) {
+        this.currentFragment = currentFragment;
+        if (currentFragment instanceof EmailsFragment || currentFragment instanceof EmailFragment)
+            mNavigationView.getMenu().findItem(R.id.item_emails).setChecked(true);
+        else if (currentFragment instanceof  FoldersFragment)
+            mNavigationView.getMenu().findItem(R.id.item_folders).setChecked(true);
+        else if (currentFragment instanceof  ContactsFragment)
+            mNavigationView.getMenu().findItem(R.id.item_contacts).setChecked(true);
+
 
     }
 }

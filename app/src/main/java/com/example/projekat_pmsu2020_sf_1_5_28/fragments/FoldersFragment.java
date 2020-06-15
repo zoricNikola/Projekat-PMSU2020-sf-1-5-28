@@ -58,7 +58,7 @@ public class FoldersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).currentFragment = this;
+        ((MainActivity) getActivity()).setCurrentFragment(this);
     }
 
     @Override

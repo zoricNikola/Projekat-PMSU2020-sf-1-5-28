@@ -42,7 +42,7 @@ public class EmailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.recyclerViewEmails);
+        RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerViewEmails);
         EmailsAdapter adapter = new EmailsAdapter(getContext(), Mokap.getEmails(), (MainActivity) getContext());
         recyclerView.setAdapter(adapter);
 
@@ -52,7 +52,7 @@ public class EmailsFragment extends Fragment {
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fabEmail);
+        FloatingActionButton fab = getActivity().findViewById(R.id.fabEmail);
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -73,7 +73,7 @@ public class EmailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ( (MainActivity) getActivity()).currentFragment = this;
+        ((MainActivity) getActivity()).setCurrentFragment(this);
     }
 
     public void startCreateEmailActivity() {

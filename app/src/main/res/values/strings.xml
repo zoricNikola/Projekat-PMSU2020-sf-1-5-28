@@ -34,4 +34,5 @@
     <string name="contact_name">Contact name</string>
     <string name="NumberTen">10</string>
     <string name="folder_name">Folder name</string>
+    <string name="splash_image_description">Splash image</string>
 </resources>
