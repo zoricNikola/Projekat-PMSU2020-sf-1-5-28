@@ -24,7 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class FoldersFragment extends Fragment {
 
 
-    public static Fragment newInstance() { return new FoldersFragment();
+    public static FoldersFragment newInstance() { return new FoldersFragment();
     }
 
     @Override
@@ -59,6 +59,7 @@ public class FoldersFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setCurrentFragment(this);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.Folders));
     }
 
     @Override

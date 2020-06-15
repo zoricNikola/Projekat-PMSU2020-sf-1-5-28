@@ -95,5 +95,6 @@ public class EmailFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setCurrentFragment(this);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
     }
 }

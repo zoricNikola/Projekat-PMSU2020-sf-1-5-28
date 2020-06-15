@@ -35,4 +35,7 @@
     <string name="NumberTen">10</string>
     <string name="folder_name">Folder name</string>
     <string name="splash_image_description">Splash image</string>
+    <string name="group_title">Group title</string>
+    <string name="new_folder">New folder</string>
+    <string name="Edit">Edit</string>
 </resources>

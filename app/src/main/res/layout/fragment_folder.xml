@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@color/perfectDark">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/buttonFolders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Folders"
+            android:gravity="start"
+            android:elegantTextHeight="true"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            app:icon="@drawable/ic_collapse"
+            app:iconTint="@android:color/white"/>
+
+        <LinearLayout
+            android:id="@+id/foldersContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewFolders"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonEmails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Emails"
+            android:gravity="start"
+            android:elegantTextHeight="true"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            app:icon="@drawable/ic_collapse"
+            app:iconTint="@android:color/white"/>
+
+        <LinearLayout
+            android:id="@+id/emailsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewEmails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -24,6 +24,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ContactsFragment extends Fragment {
 
+    public static ContactsFragment newInstance() { return new ContactsFragment(); }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class ContactsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setCurrentFragment(this);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.Contacts));
     }
 
     private void startCreateContactActivity() {

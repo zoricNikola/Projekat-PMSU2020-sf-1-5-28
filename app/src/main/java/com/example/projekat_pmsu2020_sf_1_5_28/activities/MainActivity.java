@@ -27,6 +27,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.adapters.FoldersAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.ContactsFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailsFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.fragments.FolderFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.fragments.FoldersFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Fragment mEmailsFragment;
     private Fragment mFoldersFragment;
+    private Fragment mContactsFragment;
     private Fragment currentFragment;
 
     @Override
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setNavigationDrawer();
         mEmailsFragment = EmailsFragment.newInstance();
         mFoldersFragment = FoldersFragment.newInstance();
+        mContactsFragment = ContactsFragment.newInstance();
 
         appStarting = true;
     }
@@ -133,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void startContactsFragment() {
-        FragmentTransition.to(new ContactsFragment(), MainActivity.this, true);
+        FragmentTransition.to(mContactsFragment, MainActivity.this, true);
     }
 
     private void startSettingsActivity() {
@@ -201,11 +204,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onFolderItemClick(int position) {
         Toast.makeText(MainActivity.this, "Folder " + position, Toast.LENGTH_LONG).show();
-//        Bundle folderData = new Bundle();
-//        folderData.putSerializable("folder",Mokap.getFolders().get(position));
-//        FoldersFragment foldersFragment = (FoldersFragment) FoldersFragment.newInstance();
-//        foldersFragment.setArguments(folderData);
-//        FragmentTransition.to(foldersFragment, MainActivity.this, true);
+        Bundle folderData = new Bundle();
+        folderData.putSerializable("folder",Mokap.getFolders().get(position));
+        FolderFragment folderFragment = FolderFragment.newInstance();
+        folderFragment.setArguments(folderData);
+        FragmentTransition.to(folderFragment, MainActivity.this, true);
 
     }
 
@@ -213,11 +216,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.currentFragment = currentFragment;
         if (currentFragment instanceof EmailsFragment || currentFragment instanceof EmailFragment)
             mNavigationView.getMenu().findItem(R.id.item_emails).setChecked(true);
-        else if (currentFragment instanceof  FoldersFragment)
+        else if (currentFragment instanceof  FoldersFragment || currentFragment instanceof FolderFragment)
             mNavigationView.getMenu().findItem(R.id.item_folders).setChecked(true);
         else if (currentFragment instanceof  ContactsFragment)
             mNavigationView.getMenu().findItem(R.id.item_contacts).setChecked(true);
-
-
     }
+
 }

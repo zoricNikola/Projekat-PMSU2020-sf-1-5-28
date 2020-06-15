@@ -74,6 +74,7 @@ public class EmailsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setCurrentFragment(this);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.Emails));
     }
 
     public void startCreateEmailActivity() {
