@@ -44,6 +44,7 @@ public class CreateEmailActivity extends AppCompatActivity {
 
         switch (id) {
             case android.R.id.home:
+                Toast.makeText(CreateEmailActivity.this, "Back clicked", Toast.LENGTH_LONG).show();
                 onBackPressed();
                 return true;
             case R.id.item_send:

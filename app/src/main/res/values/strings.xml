@@ -38,4 +38,10 @@
     <string name="group_title">Group title</string>
     <string name="new_folder">New folder</string>
     <string name="Edit">Edit</string>
+    <string name="create_contact">Create contact</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="Surname">Surname</string>
+    <string name="eMail">e-Mail</string>
+    <string name="display_name">Display name</string>
 </resources>

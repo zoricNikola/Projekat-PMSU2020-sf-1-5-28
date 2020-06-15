@@ -1,5 +1,6 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities.CreateContactActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.ContactsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -71,6 +73,8 @@ public class ContactsFragment extends Fragment {
 
     private void startCreateContactActivity() {
         Toast.makeText(getActivity(), "Create contact", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getActivity(), CreateContactActivity.class);
+        startActivity(intent);
     }
 
 

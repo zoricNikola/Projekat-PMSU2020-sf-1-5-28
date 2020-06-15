@@ -136,6 +136,7 @@ public class Mokap {
         Folder f4 = new Folder("Folder 4");
         Folder f5 = new Folder("Folder 5");
         Folder f6 = new Folder("Folder 6");
+        Folder f7 = new Folder("Folder 7");
 
         folders.add(f1);
         folders.add(f2);
@@ -143,6 +144,7 @@ public class Mokap {
         folders.add(f4);
         folders.add(f5);
         folders.add(f6);
+        folders.add(f7);
 
         return folders;
     }
