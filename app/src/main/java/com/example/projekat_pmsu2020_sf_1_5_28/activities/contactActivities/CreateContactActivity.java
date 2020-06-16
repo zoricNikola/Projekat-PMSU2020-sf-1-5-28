@@ -43,7 +43,7 @@ public class CreateContactActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id){
-            case R.id.home:
+            case android.R.id.home:
                 onBackPressed();
                 return true;
 
