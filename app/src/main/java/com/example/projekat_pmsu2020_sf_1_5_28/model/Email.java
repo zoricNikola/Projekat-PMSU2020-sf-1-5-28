@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Email implements Serializable {
 
@@ -16,10 +17,12 @@ public class Email implements Serializable {
     private LocalDateTime dateTime;
     private String subject;
     private String content;
+    private List<Tag> tags;
 
     public Email () {}
 
-    public Email(String from, String to, String cc, String bcc, LocalDateTime dateTime, String subject, String content) {
+    public Email(String from, String to, String cc, String bcc, LocalDateTime dateTime,
+                 String subject, String content, List<Tag> tags) {
         this.from = from;
         this.to = to;
         this.cc = cc;
@@ -27,6 +30,7 @@ public class Email implements Serializable {
         this.dateTime = dateTime;
         this.subject = subject;
         this.content = content;
+        this.tags = tags;
     }
 
     public String getFrom() {
@@ -113,5 +117,13 @@ public class Email implements Serializable {
                     emailTime.getYear() + ".";
             return dateTimeOutput;
         }
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

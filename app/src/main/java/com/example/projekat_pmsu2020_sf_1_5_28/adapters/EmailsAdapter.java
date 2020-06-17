@@ -1,6 +1,7 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +16,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Tag;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.List;
 
 public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewHolder> {
 
+    private Context mContext;
     private List<Email> mItems;
     private LayoutInflater inflater;
     private OnEmailItemListener mOnEmailItemListener;
 
     public EmailsAdapter(Context context, List<Email> items, OnEmailItemListener mOnEmailItemListener) {
+        this.mContext = context;
         this.inflater = LayoutInflater.from(context);
         this.mItems = items;
         this.mOnEmailItemListener = mOnEmailItemListener;
@@ -56,6 +62,7 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
         private CardView mCardItem;
         private ImageView mContactIcon;
         private TextView mSenderName, mDateTime, mSubject, mContent;
+        private ChipGroup mEmailTagsChipGroup;
         private OnEmailItemListener mOnEmailItemListener;
 
         public EmailViewHolder(@NonNull View itemView, OnEmailItemListener listener) {
@@ -66,6 +73,7 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
             mDateTime = itemView.findViewById(R.id.dateTime);
             mSubject = itemView.findViewById(R.id.subject);
             mContent = itemView.findViewById(R.id.content);
+            mEmailTagsChipGroup = itemView.findViewById(R.id.emailTagsChipGroup);
             mOnEmailItemListener = listener;
 
             itemView.setOnClickListener(this);
@@ -89,6 +97,15 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
             }
             catch (Exception e) {
 //            ??
+            }
+
+            mEmailTagsChipGroup.removeAllViews();
+
+            for (Tag tag : current.getTags()) {
+                Chip chip = new Chip(mContext);
+                chip.setText(tag.getName());
+                chip.setChipBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(tag.getColor())));
+                mEmailTagsChipGroup.addView(chip);
             }
         }
 

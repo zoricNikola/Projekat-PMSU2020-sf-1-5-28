@@ -1,5 +1,7 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,12 +24,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Tag;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.Random;
 
 public class EmailFragment extends Fragment {
 
     private Email mEmail;
     private TextView mEmailSubject;
-    private RecyclerView mLabelsRecyclerView;
+    private ChipGroup mEmailTagsChipGroup;
     private ImageView mContactIcon;
     private TextView mSenderName, mDateTime, mEmailFrom, mEmailCC,
             mEmailBCC, mEmailTo, mEmailContent;
@@ -45,7 +52,7 @@ public class EmailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mEmailSubject = getActivity().findViewById(R.id.emailSubject);
-        mLabelsRecyclerView = getActivity().findViewById(R.id.emailLabelsHolder);
+        mEmailTagsChipGroup = getActivity().findViewById(R.id.emailTagsChipGroup);
         mContactIcon = getActivity().findViewById(R.id.contact_icon);
         mSenderName = getActivity().findViewById(R.id.senderName);
         mDateTime = getActivity().findViewById(R.id.emailDateTime);
@@ -65,6 +72,12 @@ public class EmailFragment extends Fragment {
         mEmailBCC.setText(email.getBcc());
         mEmailTo.setText(email.getTo());
         mEmailContent.setText(email.getContent());
+        for (Tag tag : email.getTags()) {
+            Chip chip = new Chip(getContext());
+            chip.setText(tag.getName());
+            chip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(tag.getColor())));
+            mEmailTagsChipGroup.addView(chip);
+        }
     }
 
     @Override

@@ -22,19 +22,20 @@
             android:textSize="25sp"
             android:text="@string/Subject"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/emailLabelsHolder"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/emailTagsChipGroup"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/emailSubject"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"/>
+            android:layout_marginTop="10dp">
+
+        </com.google.android.material.chip.ChipGroup>
 
         <RelativeLayout
             android:id="@+id/emailDetailsHolder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/emailLabelsHolder"
+            android:layout_below="@id/emailTagsChipGroup"
             android:layout_marginTop="30dp">
 
             <ImageView

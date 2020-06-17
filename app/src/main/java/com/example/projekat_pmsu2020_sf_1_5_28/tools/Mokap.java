@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Tag;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,65 +19,79 @@ public class Mokap {
     public static List<Email> getEmails() {
         ArrayList<Email> emails = new ArrayList<>();
 
+        Tag tag1 = new Tag("Urgent", android.R.color.holo_red_dark);
+        Tag tag2 = new Tag("Work", android.R.color.holo_blue_dark);
+        Tag tag3 = new Tag("School", android.R.color.holo_green_dark);
+
+        ArrayList<Tag> tags1 = new ArrayList<>();
+        tags1.add(tag1);
+        tags1.add(tag2);
+
+        ArrayList<Tag> tags2 = new ArrayList<>();
+        tags2.add(tag1);
+        tags2.add(tag3);
+
+        ArrayList<Tag> tags3 = new ArrayList<>();
+
         Email e1 = new Email("znikoolaa@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2020, 4, 27, 15, 35),
-                "Ovo je subject", "Ovo je content");
+                "Ovo je subject", "Ovo je content", tags1);
 
         Email e2 = new Email("stefan.kockar@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2020, 4, 26, 17, 15),
-                "Subject...", "Content content content content");
+                "Subject...", "Content content content content", tags3);
 
         Email e3 = new Email("boris.jankovic@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2019, 4, 26, 9, 47),
-                "No subject", "Bla bla bla");
+                "No subject", "Bla bla bla", tags2);
 
         Email e4 = new Email("znikoolaa@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2020, 4, 27, 15, 35),
-                "Ovo je subject", "Ovo je content");
+                "Ovo je subject", "Ovo je content", tags2);
 
         Email e5 = new Email("stefan.kockar@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2020, 4, 26, 17, 15),
-                "Subject...", "Content content content content");
+                "Subject...", "Content content content content", tags1);
 
         Email e6 = new Email("boris.jankovic@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2019, 4, 26, 9, 47),
-                "No subject", "Bla bla bla");
+                "No subject", "Bla bla bla", tags3);
 
         Email e7 = new Email("znikoolaa@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2020, 4, 27, 15, 35),
-                "Ovo je subject", "Ovo je content");
+                "Ovo je subject", "Ovo je content", tags1);
 
         Email e8 = new Email("stefan.kockar@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2020, 4, 26, 17, 15),
-                "Subject...", "Content content content content");
+                "Subject...", "Content content content content", tags2);
 
         Email e9 = new Email("boris.jankovic@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2019, 4, 26, 9, 47),
-                "No subject", "Bla bla bla");
+                "No subject", "Bla bla bla", tags3);
 
         Email e10 = new Email("znikoolaa@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2020, 4, 27, 15, 35),
-                "Ovo je subject", "Ovo je content");
+                "Ovo je subject", "Ovo je content", tags2);
 
         Email e11 = new Email("stefan.kockar@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2020, 4, 26, 17, 15),
-                "Subject...", "Content content content content");
+                "Subject...", "Content content content content", tags1);
 
         Email e12 = new Email("boris.jankovic@gmail.com", "nikola.se.zoric@gmail.com",
                 "", "",
                 LocalDateTime.of(2019, 4, 26, 9, 47),
-                "No subject", "Bla bla bla");
+                "No subject", "Bla bla bla", tags3);
 
         emails.add(e1);
         emails.add(e2);
