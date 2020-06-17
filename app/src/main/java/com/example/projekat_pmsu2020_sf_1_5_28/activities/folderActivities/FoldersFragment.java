@@ -1,5 +1,6 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.folderActivities;
 
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,8 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.FoldersAdapter;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class FoldersFragment extends Fragment {
 
@@ -53,7 +60,8 @@ public class FoldersFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Add folder clicked", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "New folder clicked", Toast.LENGTH_LONG).show();
+                openCreateFolderDialog();
             }
         });
     }
@@ -71,5 +79,37 @@ public class FoldersFragment extends Fragment {
         inflater.inflate(R.menu.toolbar_menu,menu);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void openCreateFolderDialog() {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+        builder.setTitle(getString(R.string.new_folder));
+
+        final EditText input = new EditText(getContext());
+        input.setHint(getString(R.string.folder_name));
+
+        builder.setView(input);
+
+        builder.setPositiveButton(getString(R.string.Ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String newFolderName = input.getText().toString();
+                Toast.makeText(getContext(),newFolderName, Toast.LENGTH_LONG).show();
+
+                Folder newFolder = new Folder();
+                newFolder.setName(newFolderName);
+                newFolder.setEmailsList(new ArrayList<Email>());
+                newFolder.setFoldersList(new ArrayList<Folder>());
+                newFolder.setParentFolder(null);
+            }
+        });
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }
