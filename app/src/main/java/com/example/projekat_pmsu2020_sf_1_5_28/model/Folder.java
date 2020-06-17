@@ -6,13 +6,18 @@ import java.util.List;
 public class Folder implements Serializable {
 
     private String name;
-
-    private List <Folder> FoldersList;
+    private List<Email> emailsList;
+    private Folder parentFolder;
+    private List<Folder> foldersList;
 
     public Folder () {}
 
-    public Folder(String name){
+    public Folder(String name, List<Email> emailsList, Folder parentFolder, List<Folder> foldersList)
+    {
         this.name = name;
+        this.emailsList = emailsList;
+        this.parentFolder = parentFolder;
+        this.foldersList = foldersList;
     }
 
     public String getName() {
@@ -24,11 +29,31 @@ public class Folder implements Serializable {
     }
 
     public List<Folder> getFoldersList() {
-        return FoldersList;
+        return foldersList;
     }
 
     public void setFoldersList(List<Folder> foldersList) {
-        FoldersList = foldersList;
+        this.foldersList = foldersList;
+    }
+
+    public List<Email> getEmailsList() {
+        return emailsList;
+    }
+
+    public void setEmailsList(List<Email> emailsList) {
+        this.emailsList = emailsList;
+    }
+
+    public Folder getParentFolder() {
+        return parentFolder;
+    }
+
+    public void setParentFolder(Folder parentFolder) {
+        this.parentFolder = parentFolder;
+    }
+
+    public int getNumberOfEmails() {
+        return this.emailsList.size();
     }
 
 }

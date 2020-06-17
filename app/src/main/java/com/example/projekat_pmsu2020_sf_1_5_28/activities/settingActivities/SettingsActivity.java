@@ -4,14 +4,10 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
-import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
-import com.example.projekat_pmsu2020_sf_1_5_28.fragments.SettingsFragment;
-import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -29,7 +25,7 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     private void setToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_back);
         mToolbar.setTitle(R.string.Settings);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

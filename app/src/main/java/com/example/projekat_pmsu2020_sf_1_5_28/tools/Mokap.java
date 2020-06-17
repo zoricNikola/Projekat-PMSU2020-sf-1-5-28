@@ -128,23 +128,33 @@ public class Mokap {
         return contacts;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<Folder> getFolders() {
         ArrayList<Folder> folders = new ArrayList<>();
-        Folder f1 = new Folder("Folder 1");
-        Folder f2 = new Folder("Folder 2");
-        Folder f3 = new Folder("Folder 3");
-        Folder f4 = new Folder("Folder 4");
-        Folder f5 = new Folder("Folder 5");
-        Folder f6 = new Folder("Folder 6");
-        Folder f7 = new Folder("Folder 7");
+        Folder inbox = new Folder("Inbox", Mokap.getEmails(), null, new ArrayList<Folder>());
 
-        folders.add(f1);
-        folders.add(f2);
-        folders.add(f3);
-        folders.add(f4);
-        folders.add(f5);
-        folders.add(f6);
-        folders.add(f7);
+        Folder drafts = new Folder("Drafts", new ArrayList<Email>(), null, new ArrayList<Folder>());
+
+        Folder spam = new Folder("Spam", Mokap.getEmails(), inbox, new ArrayList<Folder>());
+        inbox.getFoldersList().add(spam);
+
+        Folder job = new Folder("Work", new ArrayList<Email>(), inbox, new ArrayList<Folder>());
+        inbox.getFoldersList().add(job);
+
+        Folder fullTimeJob = new Folder("Full time job", Mokap.getEmails(), job, new ArrayList<Folder>());
+        job.getFoldersList().add(fullTimeJob);
+        Folder freelanceJob = new Folder("Freelance job", Mokap.getEmails(), job, new ArrayList<Folder>());
+        job.getFoldersList().add(freelanceJob);
+
+        Folder social = new Folder("Social", Mokap.getEmails(), inbox, new ArrayList<Folder>());
+
+        folders.add(inbox);
+        folders.add(drafts);
+        folders.add(spam);
+        folders.add(job);
+        folders.add(fullTimeJob);
+        folders.add(freelanceJob);
+        folders.add(social);
 
         return folders;
     }

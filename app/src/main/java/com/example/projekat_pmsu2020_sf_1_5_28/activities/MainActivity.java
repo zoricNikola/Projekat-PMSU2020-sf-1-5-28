@@ -3,14 +3,12 @@ package com.example.projekat_pmsu2020_sf_1_5_28.activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,18 +17,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
-import com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities.CreateEmailActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.ContactsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.FoldersAdapter;
-import com.example.projekat_pmsu2020_sf_1_5_28.fragments.ContactsFragment;
-import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailFragment;
-import com.example.projekat_pmsu2020_sf_1_5_28.fragments.EmailsFragment;
-import com.example.projekat_pmsu2020_sf_1_5_28.fragments.FolderFragment;
-import com.example.projekat_pmsu2020_sf_1_5_28.fragments.FoldersFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities.ContactsFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities.EmailFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities.EmailsFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.folderActivities.FolderFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.folderActivities.FoldersFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
-import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FoldersAdapter.OnFolderItemListener,
@@ -187,25 +186,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onEmailItemClick(int position) {
-        Toast.makeText(MainActivity.this, "Email " + position, Toast.LENGTH_LONG).show();
+    public void onEmailItemClick(Email email) {
+        Toast.makeText(MainActivity.this, "Email ", Toast.LENGTH_LONG).show();
         Bundle emailData = new Bundle();
-        emailData.putSerializable("email", Mokap.getEmails().get(position));
+        emailData.putSerializable("email", email);
         EmailFragment emailFragment = EmailFragment.newInstance();
         emailFragment.setArguments(emailData);
         FragmentTransition.to(emailFragment, MainActivity.this, true);
     }
 
     @Override
-    public void onContactItemClick(int position) {
-        Toast.makeText(MainActivity.this, "Contact " + position, Toast.LENGTH_LONG).show();
+    public void onContactItemClick(Contact contact) {
+        Toast.makeText(MainActivity.this, "Contact " + contact.getDisplayName(), Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onFolderItemClick(int position) {
-        Toast.makeText(MainActivity.this, "Folder " + position, Toast.LENGTH_LONG).show();
+    public void onFolderItemClick(Folder folder) {
+        Toast.makeText(MainActivity.this, "Folder " + folder.getName(), Toast.LENGTH_LONG).show();
         Bundle folderData = new Bundle();
-        folderData.putSerializable("folder",Mokap.getFolders().get(position));
+        folderData.putSerializable("folder", folder);
         FolderFragment folderFragment = FolderFragment.newInstance();
         folderFragment.setArguments(folderData);
         FragmentTransition.to(folderFragment, MainActivity.this, true);

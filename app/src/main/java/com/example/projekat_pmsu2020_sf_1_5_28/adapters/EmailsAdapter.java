@@ -52,6 +52,7 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
 
     class EmailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+        private Email current;
         private CardView mCardItem;
         private ImageView mContactIcon;
         private TextView mSenderName, mDateTime, mSubject, mContent;
@@ -59,12 +60,12 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
 
         public EmailViewHolder(@NonNull View itemView, OnEmailItemListener listener) {
             super(itemView);
-            mCardItem = (CardView) itemView.findViewById(R.id.cardEmailListItem);
-            mContactIcon = (ImageView) itemView.findViewById(R.id.contact_icon);
-            mSenderName = (TextView) itemView.findViewById(R.id.senderName);
-            mDateTime = (TextView) itemView.findViewById(R.id.dateTime);
-            mSubject = (TextView) itemView.findViewById(R.id.subject);
-            mContent = (TextView) itemView.findViewById(R.id.content);
+            mCardItem = itemView.findViewById(R.id.cardEmailListItem);
+            mContactIcon = itemView.findViewById(R.id.contact_icon);
+            mSenderName = itemView.findViewById(R.id.senderName);
+            mDateTime = itemView.findViewById(R.id.dateTime);
+            mSubject = itemView.findViewById(R.id.subject);
+            mContent = itemView.findViewById(R.id.content);
             mOnEmailItemListener = listener;
 
             itemView.setOnClickListener(this);
@@ -72,6 +73,8 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void setData (Email current, int position) {
+            this.current = current;
+
             mSenderName.setText(current.getFrom());
 
             mDateTime.setText(current.getDateTimeString());
@@ -91,12 +94,12 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
 
         @Override
         public void onClick(View v) {
-            mOnEmailItemListener.onEmailItemClick(getAdapterPosition());
+            mOnEmailItemListener.onEmailItemClick(this.current);
         }
     }
 
     public interface OnEmailItemListener {
-        void onEmailItemClick(int position);
+        void onEmailItemClick(Email email);
     }
 
 }

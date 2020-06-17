@@ -1,4 +1,4 @@
-package com.example.projekat_pmsu2020_sf_1_5_28.fragments;
+package com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
-import com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities.CreateContactActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.ContactsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

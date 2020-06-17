@@ -51,33 +51,34 @@ public class FoldersAdapter extends RecyclerView.Adapter<FoldersAdapter.FolderVi
 
     class FolderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private Folder current;
         private TextView folderName;
         private TextView folderCounter;
         private OnFolderItemListener onFolderItemListener;
 
         public FolderViewHolder(@NonNull View itemView, OnFolderItemListener listener) {
             super(itemView);
-            folderName = (TextView) itemView.findViewById(R.id.folderName);
-            folderCounter = (TextView) itemView.findViewById(R.id.folderCounter);
+            folderName = itemView.findViewById(R.id.folderName);
+            folderCounter = itemView.findViewById(R.id.folderCounter);
             onFolderItemListener = listener;
             itemView.setOnClickListener(this);
         }
 
         public void setData(Folder current, int position) {
-
+            this.current = current;
             this.folderName.setText(current.getName());
-            //this.folderCounter.setText(current.get);
+            this.folderCounter.setText(String.valueOf(current.getNumberOfEmails()));
 
         }
 
         @Override
         public void onClick(View v) {
-            onFolderItemListener.onFolderItemClick(getAdapterPosition());
+            onFolderItemListener.onFolderItemClick(this.current);
         }
     }
 
     public interface OnFolderItemListener{
-        void onFolderItemClick(int position);
+        void onFolderItemClick(Folder folder);
     }
 
 

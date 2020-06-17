@@ -50,6 +50,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private Contact current;
         private ImageView mContactIcon;
         private TextView mContactName;
         private OnContactItemListener mOnContactItemListener;
@@ -64,16 +65,17 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         }
 
         public void setData(Contact current, int position) {
+            this.current = current;
             this.mContactName.setText(current.getDisplayName());
         }
 
         @Override
         public void onClick(View v) {
-            mOnContactItemListener.onContactItemClick(getAdapterPosition());
+            mOnContactItemListener.onContactItemClick(current);
         }
     }
 
     public interface OnContactItemListener {
-        void onContactItemClick(int position);
+        void onContactItemClick(Contact contact);
     }
 }

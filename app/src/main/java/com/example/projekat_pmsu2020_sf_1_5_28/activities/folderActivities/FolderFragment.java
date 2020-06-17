@@ -1,4 +1,4 @@
-package com.example.projekat_pmsu2020_sf_1_5_28.fragments;
+package com.example.projekat_pmsu2020_sf_1_5_28.activities.folderActivities;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,9 +27,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.FoldersAdapter;
-import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
-import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.button.MaterialButton;
 
 public class FolderFragment extends Fragment {
@@ -92,7 +89,7 @@ public class FolderFragment extends Fragment {
         currentFolder = (Folder) folderData.getSerializable("folder");
 
         RecyclerView emailsRecyclerView = getActivity().findViewById(R.id.recyclerViewEmails);
-        EmailsAdapter adapter = new EmailsAdapter(getContext(), Mokap.getEmails(), (MainActivity) getContext());
+        EmailsAdapter adapter = new EmailsAdapter(getContext(), currentFolder.getEmailsList(), (MainActivity) getContext());
         emailsRecyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -102,7 +99,7 @@ public class FolderFragment extends Fragment {
         emailsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         RecyclerView foldersRecyclerView = getActivity().findViewById(R.id.recyclerViewFolders);
-        FoldersAdapter foldersAdapter = new FoldersAdapter(getContext(), Mokap.getFolders(), (MainActivity) getContext());
+        FoldersAdapter foldersAdapter = new FoldersAdapter(getContext(), currentFolder.getFoldersList(), (MainActivity) getContext());
         foldersRecyclerView.setAdapter(foldersAdapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);

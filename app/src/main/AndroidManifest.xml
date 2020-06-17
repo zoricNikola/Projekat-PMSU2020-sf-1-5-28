@@ -23,8 +23,6 @@
         <activity android:name=".activities.contactActivities.CreateContactActivity" />
         <activity android:name=".activities.profile.ProfileActivity" />
         <activity android:name=".activities.login.LoginActivity" />
-        <activity android:name=".activities.contactActivities.ContactActivity" />
-        <activity android:name=".activities.contactActivities.ContactsActivity" />
         <activity android:name=".activities.MainActivity" />
     </application>
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.projekat_pmsu2020_sf_1_5_28.fragments;
+package com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities;
 
 import android.os.Build;
 import android.os.Bundle;
