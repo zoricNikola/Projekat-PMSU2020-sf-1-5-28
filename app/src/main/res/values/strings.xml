@@ -51,4 +51,5 @@
     <string name="lastName">Last Name</string>
     <string name="displayName">Display Name</string>
     <string name="contactEmail">Email</string>
+    <string name="profileUsername">Username</string>
 </resources>

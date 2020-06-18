@@ -1,6 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/perfectDark">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/contact_icon"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_user"/>
+
+         <TextView
+            android:id="@+id/firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:textSize="25sp"
+            android:layout_below="@id/contact_icon"
+            android:text="@string/firstName"/>
+
+        <TextView
+            android:id="@+id/lastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp"
+            android:layout_below="@id/contact_icon"
+            android:text="@string/lastName"/>
+
+        <TextView
+            android:id="@+id/displayName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp"
+            android:layout_below="@id/contact_icon"
+            android:text="@string/displayName"/>
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp"
+            android:layout_below="@id/contact_icon"
+            android:text="@string/profileUsername"/>
+
+        <TextView
+            android:id="@+id/contactEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp"
+            android:layout_below="@id/contact_icon"
+            android:text="@string/contactEmail"/>
 </LinearLayout>
