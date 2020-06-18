@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities.ContactFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.ContactsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
@@ -198,6 +199,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onContactItemClick(Contact contact) {
         Toast.makeText(MainActivity.this, "Contact " + contact.getDisplayName(), Toast.LENGTH_LONG).show();
+        Bundle contactData = new Bundle();
+        contactData.putSerializable("contact", contact);
+        ContactFragment contactFragment = ContactFragment.newInstance();
+        contactFragment.setArguments(contactData);
+        FragmentTransition.to(contactFragment, MainActivity.this, true);
     }
 
     @Override

@@ -45,4 +45,10 @@
     <string name="eMail">e-Mail</string>
     <string name="display_name">Display name</string>
     <string name="Ok">Ok</string>
+    <string name="fisrtName">firstName</string>
+    <string name="firstName">First Name</string>
+    <string name="name">Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="displayName">Display Name</string>
+    <string name="contactEmail">Email</string>
 </resources>
