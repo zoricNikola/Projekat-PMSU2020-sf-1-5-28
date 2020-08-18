@@ -1,8 +1,10 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +20,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities.ContactFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.login.LoginActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.splash.SplashActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.ContactsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.FoldersAdapter;
@@ -31,6 +35,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
+import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
 import com.google.android.material.navigation.NavigationView;
 
@@ -113,6 +118,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case R.id.item_settings:
                     startSettingsActivity();
+                    break;
+                case R.id.item_logout:
+                    SharedPreferences sharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
+                    sharedPreferences.edit().remove("jwt").remove("userId").apply();
+                    Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
             }
         }

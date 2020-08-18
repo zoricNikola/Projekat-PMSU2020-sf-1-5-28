@@ -1,5 +1,10 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.service;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -16,8 +21,8 @@ public class ServiceUtils {
     //    192.168.0.14:8080/api
     public static final String SERVICE_API_PATH = "http://192.168.0.14:8080/api/";
     //  AUTH
-    public static final String AUTH_LOGIN = "/auth/login";
-    public static final String AUTH_REGISTER = "/auth/login";
+    public static final String AUTH_LOGIN = "auth/login";
+    public static final String AUTH_REGISTER = "auth/login";
     //  --- END OF AUTH ---
 //  --- USERS ---
     public static final String GET_USER_BY_ID = "users/{id}";
@@ -78,22 +83,30 @@ public class ServiceUtils {
     public static final String REMOVE_ATTACHMENT = "attachments/{id}";
 //  --- END OF ATTACHMENTS ---
 
+    public static Context mContext;
+    public static final String PREFERENCES_NAME = "MyEmailClient";
+
     public static OkHttpClient buildClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor).build();
-
-        client.networkInterceptors().add(new Interceptor() {
+        Interceptor headerInterceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request.Builder requestBuilder = chain.request().newBuilder();
                 requestBuilder.addHeader("Content-Type", "application/json");
-                requestBuilder.addHeader("Authorization", "Bearer "/* + jwt*/);
+
+                SharedPreferences sharedPreferences = mContext.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+                String jwt = sharedPreferences.getString("jwt", null);
+                Long userId = sharedPreferences.getLong("userId", 0);
+                if (jwt != null && userId != 0) {
+                    requestBuilder.addHeader("Authorization", "Bearer " + jwt);
+                }
                 return chain.proceed(requestBuilder.build());
             }
-        });
+        };
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor).addNetworkInterceptor(headerInterceptor).build();
         return client;
     }
 
@@ -103,5 +116,8 @@ public class ServiceUtils {
             .client(buildClient())
             .build();
 
-    public static EmailClientService emailClientService = retrofit.create(EmailClientService.class);
+    public static EmailClientService emailClientService(Context context) {
+        mContext = context;
+        return retrofit.create(EmailClientService.class);
+    }
 }

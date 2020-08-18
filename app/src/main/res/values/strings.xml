@@ -52,4 +52,5 @@
     <string name="displayName">Display Name</string>
     <string name="contactEmail">Email</string>
     <string name="profileUsername">Username</string>
+    <string name="log_out">Log out</string>
 </resources>
