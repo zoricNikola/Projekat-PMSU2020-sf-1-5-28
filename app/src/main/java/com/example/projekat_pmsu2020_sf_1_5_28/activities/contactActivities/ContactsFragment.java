@@ -20,8 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.ContactsAdapter;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class ContactsFragment extends Fragment {
 
@@ -39,7 +42,7 @@ public class ContactsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerViewContacts);
-        ContactsAdapter adapter = new ContactsAdapter(getContext(), Mokap.getContacts(), (MainActivity) getContext());
+        ContactsAdapter adapter = new ContactsAdapter(getContext(), /*Mokap.getContacts()*/new ArrayList<Contact>(), (MainActivity) getContext());
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

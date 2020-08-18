@@ -1,5 +1,6 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -15,24 +16,25 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
-import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Tag;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewHolder> {
 
     private Context mContext;
-    private List<Email> mItems;
+    private List<Message> mItems = new ArrayList<Message>();
     private LayoutInflater inflater;
     private OnEmailItemListener mOnEmailItemListener;
 
-    public EmailsAdapter(Context context, List<Email> items, OnEmailItemListener mOnEmailItemListener) {
+    public EmailsAdapter(Context context, List<Message> items, OnEmailItemListener mOnEmailItemListener) {
         this.mContext = context;
         this.inflater = LayoutInflater.from(context);
-        this.mItems = items;
+        this.mItems.addAll(items);
         this.mOnEmailItemListener = mOnEmailItemListener;
     }
 
@@ -47,7 +49,7 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull EmailViewHolder holder, int position) {
-        Email current = mItems.get(position);
+        Message current = mItems.get(position);
         holder.setData(current, position);
     }
 
@@ -58,7 +60,7 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
 
     class EmailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private Email current;
+        private Message current;
         private CardView mCardItem;
         private ImageView mContactIcon;
         private TextView mSenderName, mDateTime, mSubject, mContent;
@@ -79,8 +81,9 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
             itemView.setOnClickListener(this);
         }
 
+        @SuppressLint("ResourceAsColor")
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void setData (Email current, int position) {
+        public void setData (Message current, int position) {
             this.current = current;
 
             mSenderName.setText(current.getFrom());
@@ -104,7 +107,7 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
             for (Tag tag : current.getTags()) {
                 Chip chip = new Chip(mContext);
                 chip.setText(tag.getName());
-                chip.setChipBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(tag.getColor())));
+                chip.setChipBackgroundColor(ColorStateList.valueOf(R.color.colorAccent));
                 mEmailTagsChipGroup.addView(chip);
             }
         }
@@ -116,7 +119,7 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
     }
 
     public interface OnEmailItemListener {
-        void onEmailItemClick(Email email);
+        void onEmailItemClick(Message email);
     }
 
 }

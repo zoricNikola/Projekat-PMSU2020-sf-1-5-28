@@ -11,7 +11,8 @@
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin">
 
         <ImageView
             android:id="@+id/contact_icon"
@@ -38,9 +39,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="5dp"
             android:textSize="25sp"
-            android:layout_below="@id/contact_icon"
+            android:layout_below="@id/firstName"
             android:text="@string/lastName"/>
 
         <TextView
@@ -49,9 +50,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:layout_marginTop="95dp"
+            android:layout_marginTop="5dp"
             android:textSize="25sp"
-            android:layout_below="@id/contact_icon"
+            android:layout_below="@id/lastName"
             android:text="@string/displayName"/>
 
         <TextView
@@ -60,9 +61,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:layout_marginTop="135dp"
+            android:layout_marginTop="5dp"
             android:textSize="25sp"
-            android:layout_below="@id/contact_icon"
+            android:layout_below="@id/displayName"
             android:text="@string/contactEmail"/>
     </RelativeLayout>
 

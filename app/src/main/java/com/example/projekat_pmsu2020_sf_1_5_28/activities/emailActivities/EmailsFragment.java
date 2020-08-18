@@ -22,8 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class EmailsFragment extends Fragment {
 
@@ -40,7 +44,7 @@ public class EmailsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerViewEmails);
-        EmailsAdapter adapter = new EmailsAdapter(getContext(), Mokap.getEmails(), (MainActivity) getContext());
+        EmailsAdapter adapter = new EmailsAdapter(getContext(), /*Mokap.getEmails()*/new ArrayList<Message>(), (MainActivity) getContext());
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

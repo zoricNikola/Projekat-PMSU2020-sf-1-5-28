@@ -50,7 +50,7 @@ public class FoldersFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerViewFolders);
-        FoldersAdapter foldersAdapter = new FoldersAdapter(getContext(), Mokap.getFolders(), (MainActivity) getContext());
+        FoldersAdapter foldersAdapter = new FoldersAdapter(getContext(), /*Mokap.getFolders()*/new ArrayList<Folder>(), (MainActivity) getContext());
         recyclerView.setAdapter(foldersAdapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
@@ -98,9 +98,9 @@ public class FoldersFragment extends Fragment {
 
                 Folder newFolder = new Folder();
                 newFolder.setName(newFolderName);
-                newFolder.setEmailsList(new ArrayList<Email>());
-                newFolder.setFoldersList(new ArrayList<Folder>());
-                newFolder.setParentFolder(null);
+//                newFolder.setEmailsList(new ArrayList<Email>());
+//                newFolder.setFoldersList(new ArrayList<Folder>());
+//                newFolder.setParentFolder(null);
             }
         });
         builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {

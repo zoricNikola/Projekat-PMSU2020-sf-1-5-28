@@ -30,6 +30,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.activities.folderActivities.Folde
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
 import com.google.android.material.navigation.NavigationView;
 
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onEmailItemClick(Email email) {
+    public void onEmailItemClick(Message email) {
         Toast.makeText(MainActivity.this, "Email ", Toast.LENGTH_LONG).show();
         Bundle emailData = new Bundle();
         emailData.putSerializable("email", email);

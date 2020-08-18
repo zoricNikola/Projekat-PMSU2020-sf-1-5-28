@@ -1,23 +1,35 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class Folder implements Serializable {
 
+    private static final long serialVersionUID = 2188634478104553741L;
+    @SerializedName("id")
+    @Expose
+    private Long id;
+    @SerializedName("name")
+    @Expose
     private String name;
-    private List<Email> emailsList;
-    private Folder parentFolder;
-    private List<Folder> foldersList;
 
-    public Folder () {}
+    public Folder() {}
 
-    public Folder(String name, List<Email> emailsList, Folder parentFolder, List<Folder> foldersList)
-    {
+    public Folder(Long id, String name) {
+        super();
+        this.id = id;
         this.name = name;
-        this.emailsList = emailsList;
-        this.parentFolder = parentFolder;
-        this.foldersList = foldersList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -28,32 +40,8 @@ public class Folder implements Serializable {
         this.name = name;
     }
 
-    public List<Folder> getFoldersList() {
-        return foldersList;
-    }
-
-    public void setFoldersList(List<Folder> foldersList) {
-        this.foldersList = foldersList;
-    }
-
-    public List<Email> getEmailsList() {
-        return emailsList;
-    }
-
-    public void setEmailsList(List<Email> emailsList) {
-        this.emailsList = emailsList;
-    }
-
-    public Folder getParentFolder() {
-        return parentFolder;
-    }
-
-    public void setParentFolder(Folder parentFolder) {
-        this.parentFolder = parentFolder;
-    }
-
-    public int getNumberOfEmails() {
-        return this.emailsList.size();
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 
 }

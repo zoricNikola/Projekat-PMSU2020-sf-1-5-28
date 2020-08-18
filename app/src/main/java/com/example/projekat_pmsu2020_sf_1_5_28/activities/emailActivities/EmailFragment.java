@@ -1,5 +1,6 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities;
 
+import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -47,6 +48,7 @@ public class EmailFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_email, vg, false);
     }
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class EmailFragment extends Fragment {
         for (Tag tag : email.getTags()) {
             Chip chip = new Chip(getContext());
             chip.setText(tag.getName());
-            chip.setChipBackgroundColor(ColorStateList.valueOf(getResources().getColor(tag.getColor())));
+            chip.setChipBackgroundColor(ColorStateList.valueOf(R.color.colorAccent));
             mEmailTagsChipGroup.addView(chip);
         }
     }

@@ -5,21 +5,29 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Tag implements Serializable {
+public class Attachment implements Serializable {
 
-    private static final long serialVersionUID = -326867031145397065L;
+    private static final long serialVersionUID = 5112510341538929038L;
     @SerializedName("id")
     @Expose
     private Long id;
+    @SerializedName("data")
+    @Expose
+    private byte[] data;
+    @SerializedName("mimeType")
+    @Expose
+    private String mimeType;
     @SerializedName("name")
     @Expose
     private String name;
 
-    public Tag() {}
+    public Attachment() {}
 
-    public Tag(Long id, String name) {
+    public Attachment(Long id, byte[] data, String mimeType, String name) {
         super();
         this.id = id;
+        this.data = data;
+        this.mimeType = mimeType;
         this.name = name;
     }
 
@@ -29,6 +37,22 @@ public class Tag implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
 
     public String getName() {

@@ -33,6 +33,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.FoldersAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
@@ -101,7 +102,7 @@ public class FolderFragment extends Fragment {
         currentFolder = (Folder) folderData.getSerializable("folder");
 
         RecyclerView emailsRecyclerView = getActivity().findViewById(R.id.recyclerViewEmails);
-        EmailsAdapter adapter = new EmailsAdapter(getContext(), currentFolder.getEmailsList(), (MainActivity) getContext());
+        EmailsAdapter adapter = new EmailsAdapter(getContext(), /*currentFolder.getEmailsList()*/new ArrayList<Message>(), (MainActivity) getContext());
         emailsRecyclerView.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -111,7 +112,7 @@ public class FolderFragment extends Fragment {
         emailsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         RecyclerView foldersRecyclerView = getActivity().findViewById(R.id.recyclerViewFolders);
-        FoldersAdapter foldersAdapter = new FoldersAdapter(getContext(), currentFolder.getFoldersList(), (MainActivity) getContext());
+        FoldersAdapter foldersAdapter = new FoldersAdapter(getContext(), /*currentFolder.getFoldersList()*/new ArrayList<Folder>(), (MainActivity) getContext());
         foldersRecyclerView.setAdapter(foldersAdapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
@@ -193,9 +194,9 @@ public class FolderFragment extends Fragment {
 
                 Folder newFolder = new Folder();
                 newFolder.setName(newFolderName);
-                newFolder.setEmailsList(new ArrayList<Email>());
-                newFolder.setFoldersList(new ArrayList<Folder>());
-                newFolder.setParentFolder(currentFolder);
+//                newFolder.setEmailsList(new ArrayList<Email>());
+//                newFolder.setFoldersList(new ArrayList<Folder>());
+//                newFolder.setParentFolder(currentFolder);
             }
         });
         builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
