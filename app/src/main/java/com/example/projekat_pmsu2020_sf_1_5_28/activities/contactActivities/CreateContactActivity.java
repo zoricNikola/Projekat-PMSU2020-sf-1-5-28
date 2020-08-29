@@ -48,11 +48,11 @@ public class CreateContactActivity extends AppCompatActivity {
                 return true;
 
             case R.id.contact_save:
-                Toast.makeText(CreateContactActivity.this,"Save clicked",Toast.LENGTH_LONG).show();
+                Toast.makeText(CreateContactActivity.this,"Save clicked",Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.contact_cancel:
-                Toast.makeText(CreateContactActivity.this,"Cancel clicked",Toast.LENGTH_LONG).show();
+                Toast.makeText(CreateContactActivity.this,"Cancel clicked",Toast.LENGTH_SHORT).show();
                 return true;
         }
 

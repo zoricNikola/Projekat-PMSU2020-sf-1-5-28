@@ -60,7 +60,7 @@ public class FoldersFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "New folder clicked", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "New folder clicked", Toast.LENGTH_SHORT).show();
                 openCreateFolderDialog();
             }
         });
@@ -94,7 +94,7 @@ public class FoldersFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newFolderName = input.getText().toString();
-                Toast.makeText(getContext(),newFolderName, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),newFolderName, Toast.LENGTH_SHORT).show();
 
                 Folder newFolder = new Folder();
                 newFolder.setName(newFolderName);

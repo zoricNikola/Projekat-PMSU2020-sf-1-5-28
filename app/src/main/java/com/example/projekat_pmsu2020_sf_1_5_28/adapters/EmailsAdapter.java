@@ -58,6 +58,12 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
         return mItems.size();
     }
 
+    public void updateItems(List<Message> items) {
+        this.mItems.clear();
+        this.mItems.addAll(items);
+        this.notifyDataSetChanged();
+    }
+
     class EmailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private Message current;

@@ -94,13 +94,13 @@ public class EmailFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_deleteEmail:
-                Toast.makeText(getContext(),"Delete email", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Delete email", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item_moveEmails:
-                Toast.makeText(getContext(),"Move email", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Move email", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item_changeTags:
-                Toast.makeText(getContext(),"Change tag", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Change tag", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return false;

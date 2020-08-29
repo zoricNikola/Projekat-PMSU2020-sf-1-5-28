@@ -24,14 +24,23 @@ import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
+import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
+import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EmailsFragment extends Fragment {
 
     public static EmailsFragment newInstance() { return new EmailsFragment(); }
+    private EmailClientService mService;
+    private EmailsAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,9 +52,10 @@ public class EmailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mService = ((MainActivity) getActivity()).getEmailClientService();
         RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerViewEmails);
-        EmailsAdapter adapter = new EmailsAdapter(getContext(), /*Mokap.getEmails()*/new ArrayList<Message>(), (MainActivity) getContext());
-        recyclerView.setAdapter(adapter);
+        mAdapter = new EmailsAdapter(getContext(), new ArrayList<Message>(), (MainActivity) getContext());
+        recyclerView.setAdapter(mAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -76,10 +86,24 @@ public class EmailsFragment extends Fragment {
         super.onResume();
         ((MainActivity) getActivity()).setCurrentFragment(this);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.Emails));
+
+        Call<List<Message>> call = mService.getAccountMessages((long)1);
+        call.enqueue(new Callback<List<Message>>() {
+            @Override
+            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
+                List<Message> messages = response.body();
+                mAdapter.updateItems(messages);
+            }
+
+            @Override
+            public void onFailure(Call<List<Message>> call, Throwable t) {
+
+            }
+        });
     }
 
     public void startCreateEmailActivity() {
-        Toast.makeText(getActivity(), "Create email", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Create email", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), CreateEmailActivity.class);
         startActivity(intent);
     }

@@ -74,7 +74,7 @@ public class ContactsFragment extends Fragment {
     }
 
     private void startCreateContactActivity() {
-        Toast.makeText(getActivity(), "Create contact", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Create contact", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), CreateContactActivity.class);
         startActivity(intent);
     }

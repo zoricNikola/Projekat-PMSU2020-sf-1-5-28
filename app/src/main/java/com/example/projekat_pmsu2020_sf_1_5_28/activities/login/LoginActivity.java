@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,26 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
-        String jwt = sharedPreferences.getString("jwt", null);
-        Long userId = sharedPreferences.getLong("userId", 0);
-        if (jwt != null && userId != 0) {
-            Call<User> call = service.getUserById(userId);
-            call.enqueue(new Callback<User>() {
-                @Override
-                public void onResponse(Call<User> call, Response<User> response) {
-//                    JWT exists and is valid
-                    if (response.code() == 200)
-                        startMainActivity();
-                }
-
-                @Override
-                public void onFailure(Call<User> call, Throwable t) {
-
-                }
-            });
-        }
-
         mLoginButton.setOnClickListener(new View.OnClickListener()  {
            @Override
            public void onClick(View v) {
@@ -98,21 +79,31 @@ public class LoginActivity extends AppCompatActivity {
 
                     SharedPreferences sharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
                     sharedPreferences.edit().putString("jwt", tokenHolder.getJwt())
-                            .putLong("userId", tokenHolder.getUser().getId()).apply();
+                            .putLong("userId", tokenHolder.getUser().getId())
+                            .putString("username", tokenHolder.getUser().getUsername())
+                            .putString("firstName", tokenHolder.getUser().getFirstName())
+                            .putString("lastName", tokenHolder.getUser().getLastName()).apply();
 
                     startMainActivity();
                 }
-                else if (response.code() == 203) {
-                    Log.d("REST - LOGIN", "Bad credentails " + response.errorBody());
+                else if (response.code() == 404) {
+                    Log.d("REST - LOGIN", "Bad credentails - username");
+                    Toast.makeText(LoginActivity.this, "Invalid username",Toast.LENGTH_SHORT).show();
+                }
+                else if (response.code() == 401) {
+                    Log.d("REST - LOGIN", "Bad credentails - password");
+                    Toast.makeText(LoginActivity.this, "Wrong password",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Log.d("REST - LOGIN", "Something went wrong " + response.errorBody());
+                    Toast.makeText(LoginActivity.this, "Something went wrong...",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<TokenDTO> call, Throwable t) {
                 Log.d("REST - LOGIN", "Login failed " + t.getMessage());
+                Toast.makeText(LoginActivity.this, "Something went wrong...",Toast.LENGTH_SHORT).show();
             }
         });
     }

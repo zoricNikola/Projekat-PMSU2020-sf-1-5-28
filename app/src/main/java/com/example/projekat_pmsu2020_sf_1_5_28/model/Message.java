@@ -159,7 +159,8 @@ public class Message implements Serializable {
         String[] timeSplitted = time.split(":");
         int hour = Integer.parseInt(timeSplitted[0]);
         int minute = Integer.parseInt(timeSplitted[1]);
-        int second = Integer.parseInt(timeSplitted[2]);
+        double secondDouble = Double.parseDouble(timeSplitted[2]);
+        int second = (int) secondDouble;
 
         LocalDateTime emailTime = LocalDateTime.of(year, month, dayOfMonth, hour, minute, second);
         String dateTimeOutput = "";

@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
 
-    <activity android:name=".activities.folderActivities.FolderActivity"/>
         <activity android:name=".activities.settingActivities.SettingsActivity"/>
         <activity android:name=".activities.emailActivities.CreateEmailActivity" />
         <activity android:name=".activities.splash.SplashActivity">
@@ -22,7 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.contactActivities.CreateContactActivity" />
-        <activity android:name=".activities.profile.ProfileActivity" />
         <activity android:name=".activities.login.LoginActivity" />
         <activity android:name=".activities.MainActivity" />
     </application>

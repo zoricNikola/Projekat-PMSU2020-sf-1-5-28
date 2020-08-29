@@ -164,14 +164,14 @@ public class FolderFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_newFolder:
-                Toast.makeText(getContext(),"New folder", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"New folder", Toast.LENGTH_SHORT).show();
                 openCreateFolderDialog();
                 return true;
             case R.id.item_editFolder:
-                Toast.makeText(getContext(),"Edit folder", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Edit folder", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.item_deleteFolder:
-                Toast.makeText(getContext(),"Delete folder", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Delete folder", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return false;
@@ -190,7 +190,7 @@ public class FolderFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newFolderName = input.getText().toString();
-                Toast.makeText(getContext(),newFolderName, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),newFolderName, Toast.LENGTH_SHORT).show();
 
                 Folder newFolder = new Folder();
                 newFolder.setName(newFolderName);
