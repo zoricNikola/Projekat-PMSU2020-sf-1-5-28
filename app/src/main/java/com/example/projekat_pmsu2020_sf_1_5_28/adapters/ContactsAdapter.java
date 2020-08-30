@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder> {
 
-    private List<Contact> mItems;
+    private List<Contact> mItems = new ArrayList<Contact>();
     private LayoutInflater inflater;
     private OnContactItemListener mOnContactItemListener;
 
@@ -46,6 +48,12 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    public void updateItems(List<Contact> items) {
+        this.mItems.clear();
+        this.mItems.addAll(items);
+        this.notifyDataSetChanged();
     }
 
     class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

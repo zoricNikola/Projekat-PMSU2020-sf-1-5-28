@@ -1,31 +1,30 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.adapters;
 
 import android.content.Context;
-import android.net.sip.SipSession;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
 
 import java.util.List;
 
 public class FoldersAdapter extends RecyclerView.Adapter<FoldersAdapter.FolderViewHolder> {
 
-    private List<Folder> mFolders;
+    private List<Folder> mItems;
     private LayoutInflater inflater;
     private OnFolderItemListener onFolderItemListener;
 
 
     public FoldersAdapter(Context context, List<Folder> folders, OnFolderItemListener onFolderItemListener){
         this.inflater = LayoutInflater.from(context);
-        this.mFolders = folders;
+        this.mItems = folders;
         this.onFolderItemListener = onFolderItemListener;
 
     }
@@ -40,13 +39,19 @@ public class FoldersAdapter extends RecyclerView.Adapter<FoldersAdapter.FolderVi
 
     @Override
     public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
-        Folder current = mFolders.get(position);
+        Folder current = mItems.get(position);
         holder.setData(current, position);
     }
 
     @Override
     public int getItemCount() {
-        return mFolders.size();
+        return mItems.size();
+    }
+
+    public void updateItems(List<Folder> items) {
+        this.mItems.clear();
+        this.mItems.addAll(items);
+        this.notifyDataSetChanged();
     }
 
     class FolderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

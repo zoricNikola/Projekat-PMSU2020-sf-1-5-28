@@ -1,5 +1,6 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities.EmailF
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities.EmailsFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.folderActivities.FolderFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.folderActivities.FoldersFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Account;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
@@ -39,7 +42,16 @@ import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FoldersAdapter.OnFolderItemListener,
                                                             EmailsAdapter.OnEmailItemListener, ContactsAdapter.OnContactItemListener {
@@ -55,9 +67,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment mProfileFragment;
     private Fragment currentFragment;
 
+    private SharedPreferences sharedPreferences;
+
+    public SharedPreferences getSharedPreferences() {return sharedPreferences;}
+
     private EmailClientService service;
 
     public EmailClientService getEmailClientService() {return service;}
+
+    public TextView mCurrentAccountDisplayName () {
+        return findViewById(R.id.userUsername);
+    }
+    public TextView mCurrentAccountEmail () {
+        return findViewById(R.id.userEmail);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFoldersFragment = FoldersFragment.newInstance();
         mContactsFragment = ContactsFragment.newInstance();
         mProfileFragment = ProfileFragment.newInstance();
+        sharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
         service = ServiceUtils.emailClientService(this);
 
         appStarting = true;
@@ -78,8 +102,92 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        if (appStarting)
-            navigationItemClicked(R.id.item_emails);
+
+        Long currentAccountId = sharedPreferences.getLong("currentAccountId", 0);
+        if (currentAccountId != 0) {
+            Call<Account> call = service.getAccountById(currentAccountId);
+            call.enqueue(new Callback<Account>() {
+                @Override
+                public void onResponse(Call<Account> call, Response<Account> response) {
+                    if (response.code() == 200) {
+                        Account acc = response.body();
+                        TextView mUsername = findViewById(R.id.userUsername);
+                        TextView mEmail = findViewById(R.id.userEmail);
+                        mUsername.setText(acc.getDisplayName());
+                        mEmail.setText(acc.getUsername());
+                        if (appStarting)
+                            navigationItemClicked(R.id.item_emails);
+                    }
+                    else {
+                        // CHOOSE FROM LIST
+                        chooseAccount();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Account> call, Throwable t) {
+                    Toast.makeText(MainActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                    //kill app ?
+                }
+            });
+        }
+        else {
+            chooseAccount();
+        }
+    }
+
+    private void chooseAccount() {
+        Long userId = sharedPreferences.getLong("userId", 0);
+        Call<List<Account>> call = service.getUserAccounts(userId);
+        call.enqueue(new Callback<List<Account>>() {
+            @Override
+            public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+                if (response.code() == 200) {
+                    List<Account> accounts = response.body();
+                    Log.d("Accounts", accounts.toString());
+                    chooseAccountDialog(accounts);
+                }
+                else if (response.code() == 401) {
+                    //jwt owner different than saved user
+                    //if ever happens just make the user login again
+                    Toast.makeText(MainActivity.this, "Please login again", Toast.LENGTH_SHORT).show();
+                    logout();
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                    //kill app ?
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Account>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                //kill app ?
+            }
+        });
+    }
+
+    private void chooseAccountDialog(final List<Account> accountsList) {
+        final String[] accounts = new String[accountsList.size()];
+        for (int i = 0; i < accountsList.size(); i++)
+            accounts[i] = accountsList.get(i).getUsername();
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(MainActivity.this);
+        builder.setTitle("Choose account")
+                .setItems(accounts, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (Account acc : accountsList)
+                            if (acc.getUsername().equals(accounts[which])) {
+                                sharedPreferences.edit().putLong("currentAccountId", acc.getId())
+                                        .putString("currentAccountEmail", acc.getUsername())
+                                        .putString("currentAccountDisplayName", acc.getDisplayName()).apply();
+                                mCurrentAccountDisplayName().setText(acc.getDisplayName());
+                                mCurrentAccountEmail().setText(acc.getUsername());
+                            }
+                        if (appStarting)
+                            navigationItemClicked(R.id.item_emails);
+                    }
+                }).show();
     }
 
     private void setToolbar() {
@@ -129,11 +237,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startSettingsActivity();
                     break;
                 case R.id.item_logout:
-                    SharedPreferences sharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
-                    sharedPreferences.edit().remove("jwt").remove("userId").apply();
-                    Intent intent = new Intent(MainActivity.this, SplashActivity.class);
-                    startActivity(intent);
-                    finish();
+                    logout();
                     break;
             }
         }
@@ -167,6 +271,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void startSettingsActivity() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    private void logout() {
+        SharedPreferences sharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
+        sharedPreferences.edit().remove("jwt").remove("userId").remove("username")
+                .remove("firstName").remove("lastName").remove("currentAccountId").apply();
+        Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

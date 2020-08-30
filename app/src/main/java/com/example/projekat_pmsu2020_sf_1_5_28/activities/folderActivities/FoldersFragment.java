@@ -1,6 +1,7 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.folderActivities;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,17 +25,24 @@ import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.FoldersAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
+import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Mokap;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FoldersFragment extends Fragment {
 
 
-    public static FoldersFragment newInstance() { return new FoldersFragment();
-    }
+    public static FoldersFragment newInstance() { return new FoldersFragment(); }
+    private EmailClientService mService;
+    private FoldersAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,9 +57,10 @@ public class FoldersFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mService = ((MainActivity) getActivity()).getEmailClientService();
         RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerViewFolders);
-        FoldersAdapter foldersAdapter = new FoldersAdapter(getContext(), /*Mokap.getFolders()*/new ArrayList<Folder>(), (MainActivity) getContext());
-        recyclerView.setAdapter(foldersAdapter);
+        mAdapter = new FoldersAdapter(getContext(), new ArrayList<Folder>(), (MainActivity) getContext());
+        recyclerView.setAdapter(mAdapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -67,18 +76,37 @@ public class FoldersFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity) getActivity()).setCurrentFragment(this);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.Folders));
-    }
-
-    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.toolbar_menu,menu);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setCurrentFragment(this);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.Folders));
+
+        SharedPreferences sharedPreferences = ((MainActivity) getActivity()).getSharedPreferences();
+        Long currentAccountId = sharedPreferences.getLong("currentAccountId", 0);
+
+        Call<List<Folder>> call = mService.getAccountFolders(currentAccountId);
+        call.enqueue(new Callback<List<Folder>>() {
+            @Override
+            public void onResponse(Call<List<Folder>> call, Response<List<Folder>> response) {
+                if (response.code() == 200) {
+                    List<Folder> folders = response.body();
+                    mAdapter.updateItems(folders);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Folder>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void openCreateFolderDialog() {

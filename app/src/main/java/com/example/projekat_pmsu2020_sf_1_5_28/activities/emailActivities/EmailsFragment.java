@@ -1,6 +1,8 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -87,12 +89,17 @@ public class EmailsFragment extends Fragment {
         ((MainActivity) getActivity()).setCurrentFragment(this);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.Emails));
 
-        Call<List<Message>> call = mService.getAccountMessages((long)1);
+        SharedPreferences sharedPreferences = ((MainActivity) getActivity()).getSharedPreferences();
+        Long currentAccountId = sharedPreferences.getLong("currentAccountId", 0);
+
+        Call<List<Message>> call = mService.getAccountMessages(currentAccountId);
         call.enqueue(new Callback<List<Message>>() {
             @Override
             public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
-                List<Message> messages = response.body();
-                mAdapter.updateItems(messages);
+                if (response.code() == 200) {
+                    List<Message> messages = response.body();
+                    mAdapter.updateItems(messages);
+                }
             }
 
             @Override
