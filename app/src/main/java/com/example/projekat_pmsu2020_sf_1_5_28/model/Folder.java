@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Folder implements Serializable {
 
@@ -15,13 +14,17 @@ public class Folder implements Serializable {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("numberOfMessages")
+    @Expose
+    private int numberOfMessages;
 
     public Folder() {}
 
-    public Folder(Long id, String name) {
+    public Folder(Long id, String name, int numberOfMessages) {
         super();
         this.id = id;
         this.name = name;
+        this.numberOfMessages = numberOfMessages;
     }
 
     public Long getId() {
@@ -39,6 +42,10 @@ public class Folder implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getNumberOfMessages() { return numberOfMessages;}
+
+    public void setNumberOfMessages(int numberOfMessages) { this.numberOfMessages = numberOfMessages; }
 
     public static long getSerialversionuid() {
         return serialVersionUID;

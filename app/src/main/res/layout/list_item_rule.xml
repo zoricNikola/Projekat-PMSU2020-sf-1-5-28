@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/cardRuleListItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="10dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardBackgroundColor="@color/perfectDark"
+    android:elevation="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        >
+
+        <TextView
+            android:id="@+id/ruleValueLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="start"
+            android:textStyle="bold"
+            android:padding="2dp"
+            android:layout_marginStart="10dp"
+            android:text="Value: "/>
+        <TextView
+            android:id="@+id/ruleValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="start"
+            android:textStyle="bold"
+            android:padding="2dp"
+            android:layout_toEndOf="@id/ruleValueLabel"
+            android:layout_alignBaseline="@id/ruleValueLabel"
+            android:text="@string/value_to_check"/>
+
+        <TextView
+            android:id="@+id/ruleConditionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="start"
+            android:textStyle="bold"
+            android:padding="2dp"
+            android:layout_below="@id/ruleValueLabel"
+            android:layout_marginStart="10dp"
+            android:text="Condition: "/>
+        <TextView
+            android:id="@+id/ruleCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="start"
+            android:textStyle="bold"
+            android:padding="2dp"
+            android:layout_toEndOf="@id/ruleConditionLabel"
+            android:layout_alignBaseline="@id/ruleConditionLabel"
+            android:text="@string/From"/>
+
+        <TextView
+            android:id="@+id/ruleOperationLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="start"
+            android:textStyle="bold"
+            android:padding="2dp"
+            android:layout_below="@id/ruleConditionLabel"
+            android:layout_marginStart="10dp"
+            android:text="Operation: "/>
+        <TextView
+            android:id="@+id/ruleOperation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="start"
+            android:textStyle="bold"
+            android:padding="2dp"
+            android:layout_toEndOf="@id/ruleOperationLabel"
+            android:layout_alignBaseline="@id/ruleOperationLabel"
+            android:text="@string/move"/>
+        <Button
+            android:id="@+id/ruleDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/delete"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@android:color/holo_red_dark" />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

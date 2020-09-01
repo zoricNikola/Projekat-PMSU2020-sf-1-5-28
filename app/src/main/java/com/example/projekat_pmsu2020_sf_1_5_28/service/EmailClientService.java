@@ -122,6 +122,9 @@ public interface EmailClientService {
     @GET(ServiceUtils.GET_FOLDER_RULES)
     Call<List<Rule>> getFolderRules(@Path("id") Long id);
 
+    @PUT(ServiceUtils.UPDATE_FOLDER_RULES)
+    Call<List<Rule>> updateFolderRules(@Path("id") Long id, @Body List<Rule> rules);
+
     @POST(ServiceUtils.CREATE_ROOT_FOLDER)
     Call<Folder> createFolder(@Path("accountId") Long accountId, @Body Folder folder);
 

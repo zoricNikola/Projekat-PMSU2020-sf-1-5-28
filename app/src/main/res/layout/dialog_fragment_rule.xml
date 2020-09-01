@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardFolder"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/perfectDark">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin">
+
+            <LinearLayout
+                android:id="@+id/buttonsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/cancelButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="CANCEL"
+                    android:onClick="onRuleDialogCancel"/>
+                <Button
+                    android:id="@+id/saveButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="SAVE"
+                    android:onClick="onRuleDialogSave"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ruleValueLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/buttonsLayout"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ruleValueInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:layout_gravity="center"
+                    android:hint="@string/value_to_check"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/ruleDetailsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ruleValueLayout"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/conditionLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Choose condition:"
+                        android:textSize="20sp"
+                        android:layout_marginTop="10dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/conditionRadioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <RadioButton
+                            android:id="@+id/condition_button_FROM"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="FROM" />
+                        <RadioButton
+                            android:id="@+id/condition_button_TO"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="TO" />
+                        <RadioButton
+                            android:id="@+id/condition_button_CC"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="CC" />
+                        <RadioButton
+                            android:id="@+id/condition_button_SUBJECT"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="SUBJECT" />
+
+                    </RadioGroup>
+                    <TextView
+                        android:id="@+id/conditionErrorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="Select condition!"
+                        android:textSize="15sp"
+                        android:visibility="invisible"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/operationLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Choose operation:"
+                        android:textSize="20sp"
+                        android:layout_marginTop="10dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/operationRadioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <RadioButton
+                            android:id="@+id/operation_button_MOVE"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/move" />
+                        <RadioButton
+                            android:id="@+id/operation_button_COPY"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/copy" />
+                        <RadioButton
+                            android:id="@+id/operation_button_DELETE"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/delete_capital" />
+
+                    </RadioGroup>
+                    <TextView
+                        android:id="@+id/operationErrorLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="Select operation!"
+                        android:textSize="15sp"
+                        android:visibility="invisible"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</com.google.android.material.card.MaterialCardView>

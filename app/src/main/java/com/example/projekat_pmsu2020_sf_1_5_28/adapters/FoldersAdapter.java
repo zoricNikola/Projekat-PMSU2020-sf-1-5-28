@@ -72,7 +72,7 @@ public class FoldersAdapter extends RecyclerView.Adapter<FoldersAdapter.FolderVi
         public void setData(Folder current, int position) {
             this.current = current;
             this.folderName.setText(current.getName());
-//            this.folderCounter.setText(String.valueOf(current.getNumberOfEmails()));
+            this.folderCounter.setText(String.valueOf(current.getNumberOfMessages()));
 
         }
 

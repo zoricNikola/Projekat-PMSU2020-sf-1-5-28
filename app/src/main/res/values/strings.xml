@@ -54,4 +54,8 @@
     <string name="profileUsername">Username</string>
     <string name="log_out">Log out</string>
     <string name="switch_account">Switch account</string>
+    <string name="value_to_check">Value to check</string>
+    <string name="move">MOVE</string>
+    <string name="copy">COPY</string>
+    <string name="delete_capital">DELETE</string>
 </resources>
