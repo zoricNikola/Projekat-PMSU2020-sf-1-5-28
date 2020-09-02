@@ -23,5 +23,6 @@
         <activity android:name=".activities.contactActivities.CreateContactActivity" />
         <activity android:name=".activities.login.LoginActivity" />
         <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.folderActivities.FolderDetailsActivity"/>
     </application>
 </manifest>

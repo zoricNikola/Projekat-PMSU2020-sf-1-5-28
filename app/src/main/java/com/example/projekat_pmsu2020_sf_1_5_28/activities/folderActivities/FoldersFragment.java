@@ -1,6 +1,7 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.folderActivities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,7 +71,7 @@ public class FoldersFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "New folder clicked", Toast.LENGTH_SHORT).show();
-                openCreateFolderDialog();
+                startFolderDetailsActivity();
             }
         });
     }
@@ -109,35 +110,8 @@ public class FoldersFragment extends Fragment {
         });
     }
 
-    private void openCreateFolderDialog() {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
-        builder.setTitle(getString(R.string.new_folder));
-
-        final EditText input = new EditText(getContext());
-        input.setHint(getString(R.string.folder_name));
-
-        builder.setView(input);
-
-        builder.setPositiveButton(getString(R.string.Ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String newFolderName = input.getText().toString();
-                Toast.makeText(getContext(),newFolderName, Toast.LENGTH_SHORT).show();
-
-                Folder newFolder = new Folder();
-                newFolder.setName(newFolderName);
-//                newFolder.setEmailsList(new ArrayList<Email>());
-//                newFolder.setFoldersList(new ArrayList<Folder>());
-//                newFolder.setParentFolder(null);
-            }
-        });
-        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
+    private void startFolderDetailsActivity(){
+        Intent intent = new Intent(getActivity(), FolderDetailsActivity.class);
+        startActivity(intent);
     }
 }
