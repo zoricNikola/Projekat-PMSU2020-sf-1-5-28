@@ -19,84 +19,123 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardContact"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="16dp"
         android:background="@color/perfectDark">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutContactName"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputContactName"
+            <RelativeLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/contact_name"
-                android:textSize="16sp"
-                android:inputType="text|textPersonName"
-                android:nextFocusForward="@id/inputContactSurname"
-                android:background="@color/perfectDark"/>
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <ImageView
+                    android:id="@+id/contact_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_user"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutContactSurname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/firstNameInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/contact_icon"
+                    card_view:errorEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputContactSurname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Surname"
-                android:textSize="16sp"
-                android:inputType="text|textPersonName"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/firstNameInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:layout_gravity="center"
+                        android:hint="@string/firstName"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                android:background="@color/perfectDark"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/lastNameInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/firstNameInputLayout"
+                    card_view:errorEnabled="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/lastNameInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:layout_gravity="center"
+                        android:hint="@string/lastName"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutContactEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/displayNameInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lastNameInputLayout"
+                    card_view:errorEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputContactEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/eMail"
-                android:textSize="16sp"
-                android:inputType="text|textEmailAddress"
-                android:background="@color/perfectDark"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/displayNameInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:layout_gravity="center"
+                        android:hint="@string/displayName"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/displayNameInputLayout"
+                    card_view:errorEnabled="true">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutContactDisplay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emailInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:layout_gravity="center"
+                        android:hint="@string/Email"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputContactDisplay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/display_name"
-                android:textSize="16sp"
-                android:inputType="text|textEmailAddress"
-                android:background="@color/perfectDark"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/noteInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/emailInputLayout"
+                    android:layout_alignParentBottom="true"
+                    card_view:errorEnabled="true">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/noteInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences"
+                        android:layout_gravity="center"
+                        android:hint="@string/note"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
 
 
+        </ScrollView>
 
 
-
-
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

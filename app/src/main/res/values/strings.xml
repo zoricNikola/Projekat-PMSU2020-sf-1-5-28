@@ -64,4 +64,6 @@
     <string name="delete_folder">Delete folder</string>
     <string name="rules">Rules:</string>
     <string name="add">ADD</string>
+    <string name="delete_contact">Delete Contact</string>
+    <string name="delete_contact_alert_message">Delete contact alert message</string>
 </resources>

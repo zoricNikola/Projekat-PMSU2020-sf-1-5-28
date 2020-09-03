@@ -10,7 +10,7 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/item_deleteFolder"
+        android:id="@+id/item_deleteContact"
         android:title="@string/delete"
         app:showAsAction="never"/>
 
