@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceUtils {
 
     //    192.168.0.14:8080/api
-    public static final String SERVICE_API_PATH = "http://192.168.0.17:8080/api/";
+    public static final String SERVICE_API_PATH = "http://192.168.0.17:8084/api/";
     //  AUTH
     public static final String AUTH_LOGIN = "auth/login";
     public static final String AUTH_REGISTER = "auth/login";
