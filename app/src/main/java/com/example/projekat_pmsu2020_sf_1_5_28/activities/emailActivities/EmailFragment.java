@@ -6,6 +6,8 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -83,7 +85,25 @@ public class EmailFragment extends Fragment {
         mEmailCC.setText(message.getCc());
         mEmailBCC.setText(message.getBcc());
         mEmailTo.setText(message.getTo());
-        mEmailContent.setText(message.getContent());
+
+        String content = message.getContent();
+        if (content.startsWith("<!DOCTYPE HTML>") || content.startsWith("<!DOCTYPE html>")
+            || content.startsWith("<!doctype html>") || content.startsWith("<!doctype HTML>")) {
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                Spanned sp = Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY);
+                mEmailContent.setText(sp);
+            } else {
+                Spanned sp = Html.fromHtml(content);
+                mEmailContent.setText(sp);
+            }
+
+            mEmailContent.setText(Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT));
+        }
+        else {
+            mEmailContent.setText(content);
+        }
+
         for (Tag tag : message.getTags()) {
             Chip chip = new Chip(getContext());
             chip.setText(tag.getName());

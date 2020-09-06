@@ -124,10 +124,6 @@ public class CreateEmailActivity extends AppCompatActivity {
                 || !Patterns.EMAIL_ADDRESS.matcher(mFrom.getText().toString().trim()).matches()
                 || mTo.getText().toString().trim().equals("")
                 || !Patterns.EMAIL_ADDRESS.matcher(mTo.getText().toString().trim()).matches()
-                || mCc.getText().toString().trim().equals("")
-                || !Patterns.EMAIL_ADDRESS.matcher(mCc.getText().toString().trim()).matches()
-                || mBcc.getText().toString().trim().equals("")
-                || !Patterns.EMAIL_ADDRESS.matcher(mBcc.getText().toString().trim()).matches()
                 || mSubject.getText().toString().trim().equals("")
                 || mContent.getText().toString().trim().equals("")) {
             return false;

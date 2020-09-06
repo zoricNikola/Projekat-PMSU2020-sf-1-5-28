@@ -100,6 +100,9 @@ public class EmailsFragment extends Fragment {
                     List<Message> messages = response.body();
                     mAdapter.updateItems(messages);
                 }
+                else {
+
+                }
             }
 
             @Override

@@ -60,7 +60,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         mService = ServiceUtils.emailClientService(this);
         mSharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
 
-        setTextChangeListeners();
+//        setTextChangeListeners();
 
     }
 
@@ -243,7 +243,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     private boolean validate() {
-        createErrorMessages("all");
+//        createErrorMessages("all");
         Account.InServerType inServerType = null;
         switch (mRadioGroup.getCheckedRadioButtonId()) {
             case R.id.inServerType_POP3: {
