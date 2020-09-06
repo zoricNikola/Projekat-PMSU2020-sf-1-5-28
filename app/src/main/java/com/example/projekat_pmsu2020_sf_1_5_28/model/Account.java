@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 public class Account implements Serializable {
 
+    public enum InServerType { POP3, IMAP }
+
     private static final long serialVersionUID = -4719862163497779925L;
 
     @SerializedName("id")
@@ -20,7 +22,7 @@ public class Account implements Serializable {
     private Integer smtpPort;
     @SerializedName("inServerType")
     @Expose
-    private Short inServerType;
+    private InServerType inServerType;
     @SerializedName("inServerAddress")
     @Expose
     private String inServerAddress;
@@ -39,7 +41,7 @@ public class Account implements Serializable {
 
     public Account() {}
 
-    public Account(Long id, String smtpAddress, Integer smtpPort, Short inServerType, String inServerAddress,
+    public Account(Long id, String smtpAddress, Integer smtpPort, InServerType inServerType, String inServerAddress,
                    Integer inServerPort, String username, String password, String displayName) {
         super();
         this.id = id;
@@ -77,11 +79,11 @@ public class Account implements Serializable {
         this.smtpPort = smtpPort;
     }
 
-    public Short getInServerType() {
+    public InServerType getInServerType() {
         return inServerType;
     }
 
-    public void setInServerType(Short inServerType) {
+    public void setInServerType(InServerType inServerType) {
         this.inServerType = inServerType;
     }
 

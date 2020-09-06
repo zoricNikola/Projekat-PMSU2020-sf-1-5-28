@@ -66,4 +66,13 @@
     <string name="add">ADD</string>
     <string name="delete_contact">Delete Contact</string>
     <string name="delete_contact_alert_message">Delete contact alert message</string>
+    <string name="note">Note</string>
+    <string name="smtpAddress">Smtp address (smtp.google.com)</string>
+    <string name="smtpPort">Smtp port (587)</string>
+    <string name="inServerAddress">In server address (pop.gmail.com)</string>
+    <string name="inServerPort">In server port (995)</string>
+    <string name="create_account">Create account</string>
+    <string name="reply">Reply</string>
+    <string name="replyAll">Reply to all</string>
+    <string name="forward">Forward</string>
 </resources>

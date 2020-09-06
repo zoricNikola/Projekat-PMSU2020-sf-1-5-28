@@ -1,6 +1,7 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -19,26 +20,35 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.arch.core.internal.FastSafeIterableMap;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Email;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Tag;
+import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
+import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.Random;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class EmailFragment extends Fragment {
 
-    private Email mEmail;
+    private Message mMessage;
     private TextView mEmailSubject;
     private ChipGroup mEmailTagsChipGroup;
     private ImageView mContactIcon;
     private TextView mSenderName, mDateTime, mEmailFrom, mEmailCC,
             mEmailBCC, mEmailTo, mEmailContent;
+    private EmailClientService mService;
 
     public static EmailFragment newInstance() { return new EmailFragment();}
 
@@ -65,21 +75,25 @@ public class EmailFragment extends Fragment {
         mEmailContent = getActivity().findViewById(R.id.emailContent);
 
         Bundle emailData = this.getArguments();
-        Email email = (Email) emailData.getSerializable("email");
-        mEmail = email;
-        mEmailSubject.setText(email.getSubject());
-        mDateTime.setText(email.getDateTimeString());
-        mEmailFrom.setText(email.getFrom());
-        mEmailCC.setText(email.getCc());
-        mEmailBCC.setText(email.getBcc());
-        mEmailTo.setText(email.getTo());
-        mEmailContent.setText(email.getContent());
-        for (Tag tag : email.getTags()) {
+        Message message = (Message) emailData.getSerializable("email");
+        mMessage = message;
+        mEmailSubject.setText(message.getSubject());
+        mDateTime.setText(message.getDateTimeString());
+        mEmailFrom.setText(message.getFrom());
+        mEmailCC.setText(message.getCc());
+        mEmailBCC.setText(message.getBcc());
+        mEmailTo.setText(message.getTo());
+        mEmailContent.setText(message.getContent());
+        for (Tag tag : message.getTags()) {
             Chip chip = new Chip(getContext());
             chip.setText(tag.getName());
-            chip.setChipBackgroundColor(ColorStateList.valueOf(R.color.colorAccent));
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            chip.setChipBackgroundColor(ColorStateList.valueOf(color));
             mEmailTagsChipGroup.addView(chip);
         }
+
+        mService = ((MainActivity) getActivity()).getEmailClientService();
     }
 
     @Override
@@ -93,6 +107,15 @@ public class EmailFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.item_reply:
+                Toast.makeText(getContext(),"Reply", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item_replyAll:
+                Toast.makeText(getContext(),"Reply to all", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item_forward:
+                Toast.makeText(getContext(),"Forward", Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.item_deleteEmail:
                 Toast.makeText(getContext(),"Delete email", Toast.LENGTH_SHORT).show();
                 return true;
@@ -111,5 +134,24 @@ public class EmailFragment extends Fragment {
         super.onResume();
         ((MainActivity) getActivity()).setCurrentFragment(this);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
+
+        if (mMessage.isUnread()) {
+            Call<Boolean> call = mService.markMessageAsRead(mMessage.getId());
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    if (response.code() == 200 && response.body()) {
+                        Toast.makeText(getContext(),"Message marked as read", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(getContext(),"Error marking as read", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+                    Toast.makeText(getContext(),"Error marking as read", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

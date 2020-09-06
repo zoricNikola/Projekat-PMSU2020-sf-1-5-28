@@ -164,6 +164,12 @@ public interface EmailClientService {
     @POST(ServiceUtils.CREATE_MESSAGE)
     Call<Message> createMessage(@Path("accountId") Long accountId, @Body Message message);
 
+    @PUT(ServiceUtils.MARK_MESSAGE_AS_READ)
+    Call<Boolean> markMessageAsRead(@Path("id") Long id);
+
+    @POST(ServiceUtils.SEND_MESSAGE)
+    Call<Boolean> sendMessage(@Path("id") Long id);
+
     @PUT(ServiceUtils.UPDATE_MESSAGE_TAGS)
     Call<Message> updateMessageTags(@Path("id") Long id, @Body Message message);
 

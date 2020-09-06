@@ -3,6 +3,8 @@ package com.example.projekat_pmsu2020_sf_1_5_28.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewHolder> {
 
@@ -97,6 +100,8 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
             mDateTime.setText(current.getDateTimeString());
 
             mSubject.setText(current.getSubject());
+            if (current.isUnread())
+                mSubject.setTypeface(null, Typeface.BOLD);
 
             try {
                 mContent.setText(current.getContent().substring(0, 40));
@@ -113,7 +118,9 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
             for (Tag tag : current.getTags()) {
                 Chip chip = new Chip(mContext);
                 chip.setText(tag.getName());
-                chip.setChipBackgroundColor(ColorStateList.valueOf(R.color.colorAccent));
+                Random rnd = new Random();
+                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                chip.setChipBackgroundColor(ColorStateList.valueOf(color));
                 mEmailTagsChipGroup.addView(chip);
             }
         }

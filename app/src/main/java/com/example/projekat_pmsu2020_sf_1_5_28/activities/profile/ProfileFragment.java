@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.splash.SplashActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Account;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
@@ -85,7 +86,10 @@ public class ProfileFragment extends Fragment {
             case R.id.item_switch_account:
                 Toast.makeText(getContext(),"Switch account", Toast.LENGTH_SHORT).show();
                 chooseAccount();
-
+                return true;
+            case R.id.item_create_account:
+                Toast.makeText(getContext(),"Create new account", Toast.LENGTH_SHORT).show();
+                startCreateAccountActivity();
                 return true;
         }
         return false;
@@ -159,6 +163,11 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(getContext(), SplashActivity.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    private void startCreateAccountActivity() {
+        Intent intent = new Intent(getContext(), CreateAccountActivity.class);
+        startActivity(intent);
     }
 
 }

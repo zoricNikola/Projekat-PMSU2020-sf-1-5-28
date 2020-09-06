@@ -74,6 +74,8 @@ public class ServiceUtils {
     public static final String GET_MESSAGE_TAGS = "messages{id}/tags";
     public static final String GET_MESSAGE_ATTACHMENTS = "messages{id}/attachments";
     public static final String CREATE_MESSAGE = "messages/{accountId}";
+    public static final String MARK_MESSAGE_AS_READ = "messages/{id}";
+    public static final String SEND_MESSAGE = "messages/{id}";
     public static final String UPDATE_MESSAGE_TAGS = "messages/{id}";
     public static final String MOVE_MESSAGE = "messages/{id}/moveTo/{folderId}";
     public static final String REMOVE_MESSAGE = "messages/{id}";

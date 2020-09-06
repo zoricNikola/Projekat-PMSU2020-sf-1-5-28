@@ -3,6 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/item_reply"
+        android:title="@string/reply"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/item_replyAll"
+        android:title="@string/replyAll"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/item_forward"
+        android:title="@string/forward"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/item_deleteEmail"
         android:icon="@drawable/ic_delete"
         android:title="@string/delete"
