@@ -65,9 +65,9 @@
     <string name="rules">Rules:</string>
     <string name="add">ADD</string>
     <string name="delete_contact">Delete Contact</string>
-    <string name="delete_contact_alert_message">Delete contact alert message</string>
+    <string name="delete_contact_alert_message">Are you sure that you want to delete this contact?</string>
     <string name="note">Note</string>
-    <string name="smtpAddress">Smtp address (smtp.google.com)</string>
+    <string name="smtpAddress">Smtp address (smtp.gmail.com)</string>
     <string name="smtpPort">Smtp port (587)</string>
     <string name="inServerAddress">In server address (pop.gmail.com)</string>
     <string name="inServerPort">In server port (995)</string>
@@ -84,4 +84,7 @@
     <string name="new_password">New password</string>
     <string name="repeated_password">Repeated new password</string>
     <string name="change">Change</string>
+    <string name="Accounts">Accounts</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_account_alert_message">Are you sure that you want to delete this account?</string>
 </resources>

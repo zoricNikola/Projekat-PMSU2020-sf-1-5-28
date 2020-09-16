@@ -20,6 +20,12 @@
         android:title="@string/Contacts"/>
 
     <item
+        android:id="@+id/item_accounts"
+        android:checkable="true"
+        android:icon="@drawable/ic_accounts"
+        android:title="@string/Accounts"/>
+
+    <item
         android:id="@+id/item_settings"
         android:checkable="false"
         android:icon="@drawable/ic_settings"

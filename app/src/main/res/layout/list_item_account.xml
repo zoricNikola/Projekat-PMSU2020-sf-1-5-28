@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/cardContactListItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="10dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardBackgroundColor="@color/perfectDark"
+    android:elevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/accountDisplayName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:gravity="start"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/displayName"/>
+
+            <TextView
+                android:id="@+id/accountUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:gravity="start"
+                android:padding="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/EmailToExample"/>
+        </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

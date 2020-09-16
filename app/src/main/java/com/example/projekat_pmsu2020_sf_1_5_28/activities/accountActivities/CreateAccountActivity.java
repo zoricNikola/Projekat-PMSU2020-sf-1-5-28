@@ -1,22 +1,24 @@
-package com.example.projekat_pmsu2020_sf_1_5_28.activities.profile;
+package com.example.projekat_pmsu2020_sf_1_5_28.activities.accountActivities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities.CreateContactActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Account;
-import com.example.projekat_pmsu2020_sf_1_5_28.model.Rule;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,6 +30,8 @@ import retrofit2.Response;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
+    private Toolbar mToolbar;
+
     private TextInputEditText mSmtpAddress, mSmtpPort, mInServerAddress, mInServerPort, mEmail, mPassword, mDsiplayName;
     private TextInputLayout mSmtpAddressLayout, mSmtpPortLayout, mInServerAddressLayout, mInServerPortLayout, mEmailLayout, mPasswordLayout, mDsiplayNameLayout;
     private RadioGroup mRadioGroup;
@@ -38,6 +42,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+        setToolbar();
 
         mSmtpAddress = findViewById(R.id.smtpAddressInput);
         mSmtpPort = findViewById(R.id.smtpPortInput);
@@ -60,8 +65,41 @@ public class CreateAccountActivity extends AppCompatActivity {
         mService = ServiceUtils.emailClientService(this);
         mSharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
 
-//        setTextChangeListeners();
+        setTextChangeListeners();
 
+    }
+
+    private void setToolbar(){
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_create_account);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setTitle(R.string.create_account);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.create_account_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            case R.id.account_save:
+                Toast.makeText(CreateAccountActivity.this,"Save account",Toast.LENGTH_SHORT).show();
+                createAccount();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setTextChangeListeners() {
@@ -243,7 +281,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     private boolean validate() {
-//        createErrorMessages("all");
+        createErrorMessages("all");
         Account.InServerType inServerType = null;
         switch (mRadioGroup.getCheckedRadioButtonId()) {
             case R.id.inServerType_POP3: {
@@ -268,11 +306,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         return true;
     }
 
-    public void onCancel(View view) {
-        finish();
-    }
-
-    public void onSave(View view) {
+    public void createAccount() {
         if (validate()) {
             Account.InServerType inServerType = null;
             switch (mRadioGroup.getCheckedRadioButtonId()) {

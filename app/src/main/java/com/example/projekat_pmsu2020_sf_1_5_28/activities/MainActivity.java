@@ -21,11 +21,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.accountActivities.AccountFragment;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.accountActivities.AccountsFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities.ContactFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.login.LoginActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.profile.ProfileFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.splash.SplashActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.adapters.AccountsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.ContactsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.EmailsAdapter;
 import com.example.projekat_pmsu2020_sf_1_5_28.adapters.FoldersAdapter;
@@ -54,7 +57,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FoldersAdapter.OnFolderItemListener,
-                                                            EmailsAdapter.OnEmailItemListener, ContactsAdapter.OnContactItemListener {
+                                                            EmailsAdapter.OnEmailItemListener, ContactsAdapter.OnContactItemListener,
+                                                            AccountsAdapter.OnAccountItemListener {
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment mFoldersFragment;
     private Fragment mContactsFragment;
     private Fragment mProfileFragment;
+    private Fragment mAccountsFragment;
     private Fragment currentFragment;
 
     private SharedPreferences sharedPreferences;
@@ -93,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFoldersFragment = FoldersFragment.newInstance();
         mContactsFragment = ContactsFragment.newInstance();
         mProfileFragment = ProfileFragment.newInstance();
+        mAccountsFragment = AccountsFragment.newInstance();
         sharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
         service = ServiceUtils.emailClientService(this);
 
@@ -136,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void chooseAccount() {
+    public void chooseAccount() {
         Long userId = sharedPreferences.getLong("userId", 0);
         Call<List<Account>> call = service.getUserAccounts(userId);
         call.enqueue(new Callback<List<Account>>() {
@@ -233,6 +239,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case R.id.item_contacts:
                     startContactsFragment();
                     break;
+                case R.id.item_accounts:
+                    startAccountsFragment();
+                    break;
                 case R.id.item_settings:
                     startSettingsActivity();
                     break;
@@ -268,6 +277,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransition.to(mProfileFragment, MainActivity.this, true);
     }
 
+    public void startAccountsFragment() {
+        FragmentTransition.to(mAccountsFragment, MainActivity.this, true);
+    }
+
     private void startSettingsActivity() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
@@ -298,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(currentFragment instanceof EmailsFragment ||
                     currentFragment instanceof ContactsFragment ||
                     currentFragment instanceof FoldersFragment ||
+                    currentFragment instanceof AccountsFragment ||
                     currentFragment instanceof ProfileFragment)
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 else
@@ -357,6 +371,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public void onAccountItemClick(Account account) {
+        Toast.makeText(MainActivity.this, "Account " + account.getUsername(), Toast.LENGTH_SHORT).show();
+        Bundle accountData = new Bundle();
+        accountData.putSerializable("account", account);
+        AccountFragment accountFragment = AccountFragment.newInstance();
+        accountFragment.setArguments(accountData);
+        FragmentTransition.to(accountFragment, MainActivity.this, true);
+    }
+
     public void setCurrentFragment(Fragment currentFragment) {
         this.currentFragment = currentFragment;
         if (currentFragment instanceof EmailsFragment || currentFragment instanceof EmailFragment)
@@ -365,9 +389,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mNavigationView.getMenu().findItem(R.id.item_folders).setChecked(true);
         else if (currentFragment instanceof  ContactsFragment || currentFragment instanceof ContactFragment)
             mNavigationView.getMenu().findItem(R.id.item_contacts).setChecked(true);
+        else if (currentFragment instanceof  AccountsFragment || currentFragment instanceof AccountFragment)
+            mNavigationView.getMenu().findItem(R.id.item_accounts).setChecked(true);
         else if (currentFragment instanceof ProfileFragment)
             for (int i = 0; i < mNavigationView.getMenu().size(); i++)
                 mNavigationView.getMenu().getItem(i).setChecked(false);
     }
-
 }

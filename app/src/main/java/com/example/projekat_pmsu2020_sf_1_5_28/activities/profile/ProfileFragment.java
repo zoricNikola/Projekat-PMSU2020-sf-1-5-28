@@ -1,7 +1,5 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.profile;
 
-import android.app.Service;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,12 +20,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
-import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.accountActivities.CreateAccountActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.splash.SplashActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Account;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.User;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
-import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
@@ -97,10 +94,6 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(),"Switch account", Toast.LENGTH_SHORT).show();
                 chooseAccount();
                 return true;
-            case R.id.item_create_account:
-                Toast.makeText(getContext(),"Create new account", Toast.LENGTH_SHORT).show();
-                startCreateAccountActivity();
-                return true;
         }
         return false;
     }
@@ -157,8 +150,8 @@ public class ProfileFragment extends Fragment {
                                 sharedPreferences.edit().putLong("currentAccountId", acc.getId())
                                         .putString("currentAccountEmail", acc.getUsername())
                                         .putString("currentAccountDisplayName", acc.getDisplayName()).apply();
-                                mDisplayName.setText("Display Name: " + acc.getDisplayName());
-                                mEmail.setText("Email: " + acc.getUsername());
+                                mDisplayName.setText(acc.getDisplayName());
+                                mEmail.setText(acc.getUsername());
                                 ((MainActivity)getActivity()).mCurrentAccountDisplayName().setText(acc.getDisplayName());
                                 ((MainActivity)getActivity()).mCurrentAccountEmail().setText(acc.getUsername());
                             }
