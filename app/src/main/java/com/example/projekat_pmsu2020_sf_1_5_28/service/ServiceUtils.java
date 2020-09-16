@@ -22,7 +22,7 @@ public class ServiceUtils {
     public static final String SERVICE_API_PATH = "http://192.168.0.15:8080/api/";
     //  AUTH
     public static final String AUTH_LOGIN = "auth/login";
-    public static final String AUTH_REGISTER = "auth/login";
+    public static final String AUTH_REGISTER = "auth/register";
     //  --- END OF AUTH ---
 //  --- USERS ---
     public static final String GET_USER_BY_ID = "users/{id}";
@@ -74,7 +74,7 @@ public class ServiceUtils {
     public static final String GET_MESSAGE_TAGS = "messages{id}/tags";
     public static final String GET_MESSAGE_ATTACHMENTS = "messages{id}/attachments";
     public static final String CREATE_MESSAGE = "messages/{accountId}";
-    public static final String MARK_MESSAGE_AS_READ = "messages/{id}";
+    public static final String MARK_MESSAGE_AS_READ = "messages/{id}/markAsRead";
     public static final String SEND_MESSAGE = "messages/{id}";
     public static final String UPDATE_MESSAGE_TAGS = "messages/{id}";
     public static final String MOVE_MESSAGE = "messages/{id}/moveTo/{folderId}";

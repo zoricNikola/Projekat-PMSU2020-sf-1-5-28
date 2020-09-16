@@ -75,4 +75,6 @@
     <string name="reply">Reply</string>
     <string name="replyAll">Reply to all</string>
     <string name="forward">Forward</string>
+    <string name="Register">Register</string>
+    <string name="confirmPassword">Confirm password</string>
 </resources>

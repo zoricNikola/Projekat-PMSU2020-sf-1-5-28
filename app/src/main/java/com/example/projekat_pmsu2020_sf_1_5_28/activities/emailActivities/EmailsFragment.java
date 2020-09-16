@@ -92,24 +92,25 @@ public class EmailsFragment extends Fragment {
         SharedPreferences sharedPreferences = ((MainActivity) getActivity()).getSharedPreferences();
         Long currentAccountId = sharedPreferences.getLong("currentAccountId", 0);
 
-        Call<List<Message>> call = mService.getAccountMessages(currentAccountId);
-        call.enqueue(new Callback<List<Message>>() {
-            @Override
-            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
-                if (response.code() == 200) {
-                    List<Message> messages = response.body();
-                    mAdapter.updateItems(messages);
+        if (currentAccountId != 0) {
+            Call<List<Message>> call = mService.getAccountMessages(currentAccountId);
+            call.enqueue(new Callback<List<Message>>() {
+                @Override
+                public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
+                    if (response.code() == 200) {
+                        List<Message> messages = response.body();
+                        mAdapter.updateItems(messages);
+                    } else {
+
+                    }
                 }
-                else {
+
+                @Override
+                public void onFailure(Call<List<Message>> call, Throwable t) {
 
                 }
-            }
-
-            @Override
-            public void onFailure(Call<List<Message>> call, Throwable t) {
-
-            }
-        });
+            });
+        }
     }
 
     public void startCreateEmailActivity() {

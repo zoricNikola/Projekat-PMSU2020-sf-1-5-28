@@ -64,7 +64,8 @@
             android:layout_weight="1"
             android:layout_marginRight="16dp"
             android:text="@string/Login"
-            style="@style/TextAppearance.MaterialComponents.Button"/>
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:onClick="onLogin"/>
 
         <Button
             android:id="@+id/registerButton"
@@ -76,7 +77,8 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:textColor="@android:color/white"
             app:strokeColor="@color/colorPrimary"
-            app:strokeWidth="3sp"/>
+            app:strokeWidth="3sp"
+            android:onClick="onRegister"/>
 
     </LinearLayout>
     

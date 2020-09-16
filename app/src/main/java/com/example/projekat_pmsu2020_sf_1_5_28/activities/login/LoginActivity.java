@@ -29,7 +29,6 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText mUsernameInput, mPasswordInput;
-    private Button mLoginButton, mRegisterButton;
     private EmailClientService service;
 
     @Override
@@ -38,8 +37,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mUsernameInput = findViewById(R.id.usernameInput);
         mPasswordInput = findViewById(R.id.passwordInput);
-        mLoginButton = findViewById(R.id.loginButton);
-        mRegisterButton = findViewById(R.id.registerButton);
         service = ServiceUtils.emailClientService(this);
     }
 
@@ -56,16 +53,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
 
-        mLoginButton.setOnClickListener(new View.OnClickListener()  {
-           @Override
-           public void onClick(View v) {
-               String username = mUsernameInput.getText().toString().trim();
-               String password = mPasswordInput.getText().toString().trim();
-               LoginDTO login = new LoginDTO(username, password);
-               doLogin(login);
-           }
-        });
+    public void onLogin(View v) {
+        String username = mUsernameInput.getText().toString().trim();
+        String password = mPasswordInput.getText().toString().trim();
+
+        if (!username.isEmpty() && !password.isEmpty()) {
+            LoginDTO login = new LoginDTO(username, password);
+            doLogin(login);
+        }
+
     }
 
     private void doLogin(LoginDTO login) {
@@ -108,10 +106,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public void onRegister(View v) {
+        startRegisterActivity();
+    }
+
     private void startMainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void startRegisterActivity() {
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     @Override
