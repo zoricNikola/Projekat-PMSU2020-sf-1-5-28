@@ -77,4 +77,11 @@
     <string name="forward">Forward</string>
     <string name="Register">Register</string>
     <string name="confirmPassword">Confirm password</string>
+    <string name="change_password">Change password</string>
+    <string name="manage_accounts">Manage accounts</string>
+    <string name="current_email">Current active email</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="repeated_password">Repeated new password</string>
+    <string name="change">Change</string>
 </resources>

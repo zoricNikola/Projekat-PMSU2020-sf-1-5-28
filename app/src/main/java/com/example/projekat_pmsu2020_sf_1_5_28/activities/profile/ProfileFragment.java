@@ -25,6 +25,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.settingActivities.SettingsActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.splash.SplashActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Account;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.User;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -38,7 +39,7 @@ import retrofit2.Response;
 public class ProfileFragment extends Fragment {
 
     private TextView mUsername, mFirstName, mLastName, mDisplayName, mEmail;
-
+    private EmailClientService mService;
     private SharedPreferences sharedPreferences;
 
     public static ProfileFragment newInstance() {return new ProfileFragment();}
@@ -52,12 +53,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mUsername = getActivity().findViewById(R.id.username);
-        mFirstName = getActivity().findViewById(R.id.firstName);
-        mLastName = getActivity().findViewById(R.id.lastName);
-        mDisplayName = getActivity().findViewById(R.id.displayName);
-        mEmail = getActivity().findViewById(R.id.contactEmail);
+        mUsername = getActivity().findViewById(R.id.usernameInput);
+        mFirstName = getActivity().findViewById(R.id.firstNameInput);
+        mLastName = getActivity().findViewById(R.id.lastNameInput);
+        mDisplayName = getActivity().findViewById(R.id.displayNameInput);
+        mEmail = getActivity().findViewById(R.id.emailInput);
         sharedPreferences = ((MainActivity) getActivity()).getSharedPreferences();
+        mService = ((MainActivity) getActivity()).getEmailClientService();
 
         String username = sharedPreferences.getString("username", "");
         String firstName = sharedPreferences.getString("firstName", "");
@@ -65,11 +67,11 @@ public class ProfileFragment extends Fragment {
         String currentAccountDisplayName = sharedPreferences.getString("currentAccountDisplayName", "");
         String currentAccountEmail = sharedPreferences.getString("currentAccountEmail", "");
 
-        mUsername.setText(mUsername.getText().toString().trim() + ": " + username);
-        mFirstName.setText(mFirstName.getText().toString().trim() + ": " + firstName);
-        mLastName.setText(mLastName.getText().toString().trim() + ": " + lastName);
-        mDisplayName.setText(mDisplayName.getText().toString().trim() + ": " + currentAccountDisplayName);
-        mEmail.setText(mEmail.getText().toString().trim() + ": " + currentAccountEmail);
+        mUsername.setText(username);
+        mFirstName.setText(firstName);
+        mLastName.setText(lastName);
+        mDisplayName.setText(currentAccountDisplayName);
+        mEmail.setText(currentAccountEmail);
     }
 
     @Override
@@ -83,6 +85,14 @@ public class ProfileFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.item_save:
+                Toast.makeText(getContext(),"Save user", Toast.LENGTH_SHORT).show();
+                saveUser();
+                return true;
+            case R.id.item_changePassword:
+                Toast.makeText(getContext(),"Change password", Toast.LENGTH_SHORT).show();
+                changePassword();
+                return true;
             case R.id.item_switch_account:
                 Toast.makeText(getContext(),"Switch account", Toast.LENGTH_SHORT).show();
                 chooseAccount();
@@ -104,8 +114,7 @@ public class ProfileFragment extends Fragment {
 
     private void chooseAccount() {
         Long userId = sharedPreferences.getLong("userId", 0);
-        EmailClientService service = ((MainActivity) getActivity()).getEmailClientService();
-        Call<List<Account>> call = service.getUserAccounts(userId);
+        Call<List<Account>> call = mService.getUserAccounts(userId);
         call.enqueue(new Callback<List<Account>>() {
             @Override
             public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
@@ -167,6 +176,48 @@ public class ProfileFragment extends Fragment {
 
     private void startCreateAccountActivity() {
         Intent intent = new Intent(getContext(), CreateAccountActivity.class);
+        startActivity(intent);
+    }
+
+    private void saveUser() {
+        if (validate()) {
+            User user = new User();
+            user.setFirstName(mFirstName.getText().toString().trim());
+            user.setLastName(mLastName.getText().toString().trim());
+
+            Long userId = sharedPreferences.getLong("userId", 0);
+            if (userId != 0) {
+                Call<User> call = mService.updateUser(userId, user);
+                call.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.code() == 200) {
+                            Toast.makeText(getContext(), "User updated", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+    }
+
+    private boolean validate() {
+        if (mFirstName.getText().toString().trim().isEmpty()
+                || mLastName.getText().toString().trim().isEmpty())
+            return false;
+
+        return true;
+    }
+
+    private void changePassword() {
+        Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
         startActivity(intent);
     }
 

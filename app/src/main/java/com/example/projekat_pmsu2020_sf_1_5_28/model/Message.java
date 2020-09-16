@@ -165,22 +165,22 @@ public class Message implements Serializable {
         if (emailTime.getYear() == timeNow.getYear()) {
             if (emailTime.getMonth() == timeNow.getMonth()) {
                 if (emailTime.getDayOfMonth() == timeNow.getDayOfMonth()) {
-                    dateTimeOutput = emailTime.getHour() +
-                            ":" + emailTime.getMinute();
+                    dateTimeOutput = ( emailTime.getHour() < 10 ? ("0" + emailTime.getHour()) : emailTime.getHour() )
+                            + ":" + ( emailTime.getMinute() < 10 ? ("0" + emailTime.getMinute()) : emailTime.getMinute() );
                     return dateTimeOutput;
                 }
                 else {
-                    dateTimeOutput = emailTime.getDayOfMonth() + "." + emailTime.getMonth();
+                    dateTimeOutput = emailTime.getDayOfMonth() + ". " + emailTime.getMonth();
                     return dateTimeOutput;
                 }
             }
             else {
-                dateTimeOutput = emailTime.getDayOfMonth() + "." + emailTime.getMonth();
+                dateTimeOutput = emailTime.getDayOfMonth() + ". " + emailTime.getMonth();
                 return dateTimeOutput;
             }
         }
         else {
-            dateTimeOutput = emailTime.getDayOfMonth() + "." + emailTime.getMonth() + " " +
+            dateTimeOutput = emailTime.getDayOfMonth() + ". " + emailTime.getMonth() + " " +
                     emailTime.getYear() + ".";
             return dateTimeOutput;
         }

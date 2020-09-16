@@ -24,21 +24,18 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_toEndOf="@id/userAvatar"
-        android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
-        android:layout_alignTop="@id/userAvatar"/>
+        android:layout_above="@id/userEmail"/>
 
     <TextView
         android:id="@+id/userEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Email"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="15sp"
         android:layout_toEndOf="@id/userAvatar"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_alignBottom="@id/userAvatar"/>
-
 
 </RelativeLayout>

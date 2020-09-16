@@ -27,5 +27,6 @@
         <activity android:name=".activities.folderActivities.FolderDetailsActivity"/>
         <activity android:name=".activities.profile.CreateAccountActivity"/>
         <activity android:name=".activities.login.RegisterActivity"/>
+        <activity android:name=".activities.profile.ChangePasswordActivity" />
     </application>
 </manifest>

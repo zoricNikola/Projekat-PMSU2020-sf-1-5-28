@@ -100,11 +100,14 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
             mDateTime.setText(current.getDateTimeString());
 
             mSubject.setText(current.getSubject());
-            if (current.isUnread())
+            if (current.isUnread()) {
+                mSenderName.setTypeface(null, Typeface.BOLD);
+                mDateTime.setTypeface(null, Typeface.BOLD);
                 mSubject.setTypeface(null, Typeface.BOLD);
+            }
 
             try {
-                mContent.setText(current.getContent().substring(0, 40));
+                mContent.setText(String.format("%s...", current.getContent().substring(0, 40)));
             }
             catch (IndexOutOfBoundsException e) {
                 mContent.setText(current.getContent());
@@ -112,6 +115,8 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
             catch (Exception e) {
 //            ??
             }
+
+            mContent.setTypeface(null, Typeface.ITALIC);
 
             mEmailTagsChipGroup.removeAllViews();
 
