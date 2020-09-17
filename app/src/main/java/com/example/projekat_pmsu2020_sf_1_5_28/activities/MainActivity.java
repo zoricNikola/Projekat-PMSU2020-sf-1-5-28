@@ -3,12 +3,15 @@ package com.example.projekat_pmsu2020_sf_1_5_28.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,10 +47,12 @@ import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.FragmentTransition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +77,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment mAccountsFragment;
     private Fragment currentFragment;
 
+    private String mDirPath;
+
+    public String getmDirPath() {
+        return mDirPath;
+    }
+
     private SharedPreferences sharedPreferences;
 
     public SharedPreferences getSharedPreferences() {return sharedPreferences;}
@@ -87,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return findViewById(R.id.userEmail);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,10 +113,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAccountsFragment = AccountsFragment.newInstance();
         sharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
         service = ServiceUtils.emailClientService(this);
+        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        mDirPath = dir.getPath();
 
         appStarting = true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onResume() {
         super.onResume();
@@ -119,8 +134,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Account acc = response.body();
                         TextView mUsername = findViewById(R.id.userUsername);
                         TextView mEmail = findViewById(R.id.userEmail);
+                        ImageView mUserAvatar = findViewById(R.id.userAvatar);
                         mUsername.setText(acc.getDisplayName());
                         mEmail.setText(acc.getUsername());
+                        Bitmap avatar;
+                        if ((avatar = BitmapUtil.getUserAvatar(mDirPath)) != null) {
+                            mUserAvatar.setImageBitmap(avatar);
+                        }
                         if (appStarting)
                             navigationItemClicked(R.id.item_emails);
                     }
@@ -208,7 +228,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mNavigationView = findViewById(R.id.navigationView);
         mNavigationView.setNavigationItemSelectedListener(this);
-
     }
 
     @Override

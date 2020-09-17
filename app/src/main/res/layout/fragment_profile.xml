@@ -25,6 +25,14 @@
                 android:layout_margin="10dp"
                 android:src="@drawable/ic_user"/>
 
+            <ImageView
+                android:id="@+id/add_photo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_add_photo"
+                android:layout_alignEnd="@id/userAvatarPicture"
+                android:layout_alignBottom="@id/userAvatarPicture"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/usernameInputLayout"
                 android:layout_width="match_parent"

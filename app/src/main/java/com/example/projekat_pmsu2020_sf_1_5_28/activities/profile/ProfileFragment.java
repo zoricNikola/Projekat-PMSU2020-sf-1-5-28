@@ -1,9 +1,13 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.profile;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,33 +15,46 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.accountActivities.CreateAccountActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities.ContactFragment;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.splash.SplashActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Account;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.User;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.Base64;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener{
 
+    private ImageView mPhotoHolder, mAddPhoto;
     private TextView mUsername, mFirstName, mLastName, mDisplayName, mEmail;
     private EmailClientService mService;
     private SharedPreferences sharedPreferences;
+    private String mDirPath;
+
+    byte[] mNewPicture;
 
     public static ProfileFragment newInstance() {return new ProfileFragment();}
 
@@ -47,9 +64,11 @@ public class ProfileFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mPhotoHolder = getActivity().findViewById(R.id.userAvatarPicture);
         mUsername = getActivity().findViewById(R.id.usernameInput);
         mFirstName = getActivity().findViewById(R.id.firstNameInput);
         mLastName = getActivity().findViewById(R.id.lastNameInput);
@@ -63,12 +82,20 @@ public class ProfileFragment extends Fragment {
         String lastName = sharedPreferences.getString("lastName", "");
         String currentAccountDisplayName = sharedPreferences.getString("currentAccountDisplayName", "");
         String currentAccountEmail = sharedPreferences.getString("currentAccountEmail", "");
+        mDirPath = ((MainActivity) getActivity()).getmDirPath();
 
+        Bitmap avatar;
+        if ((avatar = BitmapUtil.getUserAvatar(mDirPath)) != null) {
+            mPhotoHolder.setImageBitmap(avatar);
+        }
         mUsername.setText(username);
         mFirstName.setText(firstName);
         mLastName.setText(lastName);
         mDisplayName.setText(currentAccountDisplayName);
         mEmail.setText(currentAccountEmail);
+
+        mAddPhoto = getActivity().findViewById(R.id.add_photo);
+        mAddPhoto.setOnClickListener(ProfileFragment.this);
     }
 
     @Override
@@ -175,6 +202,8 @@ public class ProfileFragment extends Fragment {
     private void saveUser() {
         if (validate()) {
             User user = new User();
+            if (mNewPicture != null)
+                user.setEncodedAvatarData(Base64.encodeToString(mNewPicture));
             user.setFirstName(mFirstName.getText().toString().trim());
             user.setLastName(mLastName.getText().toString().trim());
 
@@ -186,6 +215,10 @@ public class ProfileFragment extends Fragment {
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.code() == 200) {
                             Toast.makeText(getContext(), "User updated", Toast.LENGTH_SHORT).show();
+                            if (mNewPicture != null) {
+                                BitmapUtil.saveUserAvatar(mNewPicture, mDirPath);
+                            }
+                            ((ImageView) getActivity().findViewById(R.id.userAvatar)).setImageBitmap(BitmapUtil.readBitmapFromBytes(mNewPicture));
                         }
                         else {
                             Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
@@ -214,4 +247,38 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
     }
 
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(getContext(),"onClick from fragment", Toast.LENGTH_SHORT).show();
+        switch (v.getId()) {
+            case R.id.add_photo:
+                pickImage();
+                break;
+        }
+    }
+
+    public void pickImage() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, BitmapUtil.PICK_PHOTO);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == BitmapUtil.PICK_PHOTO && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                return;
+            }
+            try {
+                InputStream is = getContext().getContentResolver().openInputStream(data.getData());
+                Bitmap bitmap = BitmapUtil.readBitmapFromInputStream(is, 200, 200);
+                mPhotoHolder.setImageBitmap(bitmap);
+                mNewPicture = BitmapUtil.readBitmapBytes(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

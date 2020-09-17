@@ -2,7 +2,9 @@ package com.example.projekat_pmsu2020_sf_1_5_28.activities.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -15,12 +17,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.activities.splash.SplashActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.LoginDTO;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.TokenDTO;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.User;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.Base64;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText mUsernameInput, mPasswordInput;
     private EmailClientService service;
+    private String mDirPath;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         mUsernameInput = findViewById(R.id.usernameInput);
         mPasswordInput = findViewById(R.id.passwordInput);
         service = ServiceUtils.emailClientService(this);
+        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        mDirPath = dir.getPath();
     }
 
     @Override
@@ -81,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                             .putString("username", tokenHolder.getUser().getUsername())
                             .putString("firstName", tokenHolder.getUser().getFirstName())
                             .putString("lastName", tokenHolder.getUser().getLastName()).apply();
+
+                    loadUserAvatar();
 
                     startMainActivity();
                 }
@@ -131,4 +143,29 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    private void loadUserAvatar() {
+        SharedPreferences sharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
+        String jwt = sharedPreferences.getString("jwt", null);
+        Long userId = sharedPreferences.getLong("userId", 0);
+        if (jwt != null && userId != 0) {
+            EmailClientService service = ServiceUtils.emailClientService(LoginActivity.this);
+            Call<User> call = service.getUserById(userId);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+//                              JWT exists and is valid
+                    if (response.code() == 200) {
+                        String encodedAvatar = response.body().getEncodedAvatarData();
+                        if (encodedAvatar!= null && !encodedAvatar.isEmpty())
+                            BitmapUtil.saveUserAvatar(Base64.decode(encodedAvatar), mDirPath);
+                        startMainActivity();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                }
+            });
+        }
+    }
 }

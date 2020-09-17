@@ -23,16 +23,20 @@ public class User implements Serializable {
     @SerializedName("lastName")
     @Expose
     private String lastName;
+    @SerializedName("encodedAvatarData")
+    @Expose
+    private String encodedAvatarData;
 
     public User() {}
 
-    public User(Long id, String username, String password, String firstName, String lastName) {
+    public User(Long id, String username, String password, String firstName, String lastName, String encodedAvatarData) {
         super();
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.encodedAvatarData = encodedAvatarData;
     }
 
     public Long getId() {
@@ -64,6 +68,12 @@ public class User implements Serializable {
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    public String getEncodedAvatarData() {
+        return encodedAvatarData;
+    }
+    public void setEncodedAvatarData(String encodedAvatarData) {
+        this.encodedAvatarData = encodedAvatarData;
     }
     public String toString() {
         StringBuilder sb = new StringBuilder();

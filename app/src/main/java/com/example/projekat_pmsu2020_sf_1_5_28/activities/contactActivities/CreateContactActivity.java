@@ -1,15 +1,21 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -18,8 +24,13 @@ import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.Base64;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,10 +40,13 @@ public class CreateContactActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
 
+    private ImageView mPhotoHolder, mAddPhoto;
     private TextInputEditText mFirstName, mLastName, mDisplayName, mEmail, mNote;
     private TextInputLayout mFirstNameLayout, mLastNameLayout, mDisplayNameLayout, mEmailLayout;
     private EmailClientService mService;
     private SharedPreferences mSharedPreferences;
+
+    private byte[] mNewPicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +54,7 @@ public class CreateContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_contact);
         setToolbar();
 
+        mPhotoHolder = findViewById(R.id.contact_icon);
         mFirstName = findViewById(R.id.firstNameInput);
         mLastName = findViewById(R.id.lastNameInput);
         mDisplayName = findViewById(R.id.displayNameInput);
@@ -190,12 +205,13 @@ public class CreateContactActivity extends AppCompatActivity {
     private void createContact() {
         if (validate()) {
             Contact contact = new Contact();
+            if (mNewPicture != null)
+                contact.setEncodedPhotoData(Base64.encodeToString(mNewPicture));
             contact.setFirstName(mFirstName.getText().toString().trim());
             contact.setLastName(mLastName.getText().toString().trim());
             contact.setDisplayName(mDisplayName.getText().toString().trim());
             contact.setEmail(mEmail.getText().toString().trim());
             contact.setNote(mNote.getText().toString().trim());
-            contact.setPhotoPath("");
 
             Long userId = mSharedPreferences.getLong("userId", 0);
             if (userId != 0) {
@@ -254,5 +270,28 @@ public class CreateContactActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    public void onAddPhotoClick(View view) {
+        BitmapUtil.pickImage(CreateContactActivity.this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == BitmapUtil.PICK_PHOTO && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                return;
+            }
+            try {
+                InputStream is = getContentResolver().openInputStream(data.getData());
+                Bitmap bitmap = BitmapUtil.readBitmapFromInputStream(is, 200, 200);
+                mPhotoHolder.setImageBitmap(bitmap);
+                mNewPicture = BitmapUtil.readBitmapBytes(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

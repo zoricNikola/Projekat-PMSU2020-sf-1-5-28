@@ -1,6 +1,9 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +76,12 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         }
 
         public void setData(Contact current, int position) {
+            if (current.getEncodedPhotoData() != null && !current.getEncodedPhotoData().isEmpty()) {
+                byte[] photoData = Base64.decode(current.getEncodedPhotoData(), Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(photoData, 0, photoData.length);
+                mContactIcon.setImageBitmap(bitmap);
+            }
+
             this.current = current;
             this.mContactName.setText(current.getDisplayName());
         }

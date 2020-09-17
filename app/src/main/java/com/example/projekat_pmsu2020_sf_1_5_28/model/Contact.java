@@ -26,14 +26,14 @@ public class Contact implements Serializable {
     @SerializedName("note")
     @Expose
     private String note;
-    @SerializedName("photoPath")
+    @SerializedName("encodedPhotoData")
     @Expose
-    private String photoPath;
+    private String encodedPhotoData;
 
     public Contact() {}
 
     public Contact(Long id, String firstName, String lastName, String displayName, String email, String note,
-                   String photoPath) {
+                   String encodedPhotoData) {
         super();
         this.id = id;
         this.firstName = firstName;
@@ -41,7 +41,7 @@ public class Contact implements Serializable {
         this.displayName = displayName;
         this.email = email;
         this.note = note;
-        this.photoPath = photoPath;
+        this.encodedPhotoData = encodedPhotoData;
     }
 
     public Long getId() {
@@ -92,12 +92,12 @@ public class Contact implements Serializable {
         this.note = note;
     }
 
-    public String getPhotoPath() {
-        return photoPath;
+    public String getEncodedPhotoData() {
+        return encodedPhotoData;
     }
 
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
+    public void setEncodedPhotoData(String encodedPhotoData) {
+        this.encodedPhotoData = encodedPhotoData;
     }
 
     public static long getSerialversionuid() {

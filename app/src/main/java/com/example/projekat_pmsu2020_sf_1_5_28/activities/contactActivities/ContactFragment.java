@@ -1,6 +1,10 @@
 package com.example.projekat_pmsu2020_sf_1_5_28.activities.contactActivities;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -12,10 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -23,21 +29,31 @@ import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.Base64;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ContactFragment extends Fragment {
+public class ContactFragment extends Fragment implements View.OnClickListener {
 
-    Contact mContact;
+    private Contact mContact;
+    private ImageView mPhotoHolder, mAddPhoto;
     private TextInputEditText mFirstName, mLastName, mDisplayName, mEmail, mNote;
     private TextInputLayout mFirstNameLayout, mLastNameLayout, mDisplayNameLayout, mEmailLayout;
     private EmailClientService mService;
+
+    private byte[] mNewPicture;
 
     public static ContactFragment newInstance() {return new ContactFragment();}
 
@@ -59,6 +75,7 @@ public class ContactFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mPhotoHolder = getActivity().findViewById(R.id.contact_icon);
         mFirstName = getActivity().findViewById(R.id.firstNameInput);
         mLastName = getActivity().findViewById(R.id.lastNameInput);
         mDisplayName = getActivity().findViewById(R.id.displayNameInput);
@@ -76,13 +93,21 @@ public class ContactFragment extends Fragment {
 
         Bundle contactData = this.getArguments();
         Contact contact = (Contact) contactData.getSerializable("contact");
+        this.getArguments().clear();
 
         mContact = contact;
+        if (contact.getEncodedPhotoData() != null && !contact.getEncodedPhotoData().isEmpty()) {
+            Bitmap bitmap = BitmapUtil.readBitmapFromBytes(Base64.decode(contact.getEncodedPhotoData()));
+            mPhotoHolder.setImageBitmap(bitmap);
+        }
         mFirstName.setText(contact.getFirstName());
         mLastName.setText(contact.getLastName());
         mDisplayName.setText(contact.getDisplayName());
         mEmail.setText(contact.getEmail());
         mNote.setText(contact.getNote());
+
+        mAddPhoto = getActivity().findViewById(R.id.add_photo);
+        mAddPhoto.setOnClickListener(ContactFragment.this);
 
     }
 
@@ -110,10 +135,7 @@ public class ContactFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if ( mFirstName.getText().toString().trim().equals("") )
-                    mFirstNameLayout.setError("First Name can't be blank");
-                else
-                    mFirstNameLayout.setError(null);
+                createErrorMessages("firstName");
             }
 
             @Override
@@ -129,11 +151,7 @@ public class ContactFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if ( mLastName.getText().toString().trim().equals("") )
-                    mLastNameLayout.setError("Last Name can't be blank");
-                else
-                    mLastNameLayout.setError(null);
-
+                createErrorMessages("lastName");
             }
 
             @Override
@@ -149,10 +167,7 @@ public class ContactFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if ( mDisplayName.getText().toString().trim().equals("") )
-                    mDisplayNameLayout.setError("Display Name can't be blank");
-                else
-                    mDisplayNameLayout.setError(null);
+                createErrorMessages("displayName");
             }
 
             @Override
@@ -168,12 +183,7 @@ public class ContactFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if ( mEmail.getText().toString().trim().equals("") )
-                    mEmailLayout.setError("Email can't be blank");
-                else if ( !Patterns.EMAIL_ADDRESS.matcher(mEmail.getText().toString().trim()).matches() )
-                    mEmailLayout.setError("Invalid email address");
-                else
-                    mEmailLayout.setError(null);
+                createErrorMessages("email");
             }
 
             @Override
@@ -183,8 +193,40 @@ public class ContactFragment extends Fragment {
         });
     }
 
+    private void createErrorMessages(String which) {
+        if (which.equals("all") || which.equals("firstName")) {
+            if (mFirstName.getText().toString().trim().equals(""))
+                mFirstNameLayout.setError("First Name can't be blank");
+            else
+                mFirstNameLayout.setError(null);
+        }
+        if (which.equals("all") || which.equals("lastName")) {
+            if (mLastName.getText().toString().trim().equals(""))
+                mLastNameLayout.setError("Last Name can't be blank");
+            else
+                mLastNameLayout.setError(null);
+        }
+        if (which.equals("all") || which.equals("displayName")) {
+            if (mDisplayName.getText().toString().trim().equals(""))
+                mDisplayNameLayout.setError("Display Name can't be blank");
+            else
+                mDisplayNameLayout.setError(null);
+        }
+        if (which.equals("all") || which.equals("email")) {
+            if (mEmail.getText().toString().trim().equals(""))
+                mEmailLayout.setError("Email can't be blank");
+            else if (!Patterns.EMAIL_ADDRESS.matcher(mEmail.getText().toString().trim()).matches())
+                mEmailLayout.setError("Invalid email address");
+            else
+                mEmailLayout.setError(null);
+        }
+    }
+
     private void saveContact() {
         if (validate()) {
+
+            if (mNewPicture != null)
+                mContact.setEncodedPhotoData(Base64.encodeToString(mNewPicture));
             mContact.setFirstName(mFirstName.getText().toString().trim());
             mContact.setLastName(mLastName.getText().toString().trim());
             mContact.setDisplayName(mDisplayName.getText().toString().trim());
@@ -213,6 +255,7 @@ public class ContactFragment extends Fragment {
     }
 
     private boolean validate() {
+        createErrorMessages("all");
         if ( mFirstNameLayout.getError() != null
                 || mLastNameLayout.getError() != null
                 || mDisplayNameLayout.getError() != null
@@ -263,4 +306,40 @@ public class ContactFragment extends Fragment {
         ((MainActivity) getActivity()).setCurrentFragment(this);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(null);
     }
+
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(getContext(),"onClick from fragment", Toast.LENGTH_SHORT).show();
+        switch (v.getId()) {
+            case R.id.add_photo:
+                pickImage();
+                break;
+        }
+    }
+
+    public void pickImage() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, BitmapUtil.PICK_PHOTO);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == BitmapUtil.PICK_PHOTO && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                return;
+            }
+            try {
+                InputStream is = getContext().getContentResolver().openInputStream(data.getData());
+                Bitmap bitmap = BitmapUtil.readBitmapFromInputStream(is, 200, 200);
+                mPhotoHolder.setImageBitmap(bitmap);
+                mNewPicture = BitmapUtil.readBitmapBytes(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

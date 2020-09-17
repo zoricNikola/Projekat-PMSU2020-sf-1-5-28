@@ -3,9 +3,11 @@ package com.example.projekat_pmsu2020_sf_1_5_28.activities.splash;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +18,10 @@ import com.example.projekat_pmsu2020_sf_1_5_28.activities.login.LoginActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.User;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.ServiceUtils;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.Base64;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,10 +31,14 @@ import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private String mDirPath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        mDirPath = dir.getPath();
 
         if(isOnline()){
             int splashTime = 1000;
@@ -47,8 +56,12 @@ public class SplashActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {
 //                              JWT exists and is valid
-                                if (response.code() == 200)
+                                if (response.code() == 200) {
+                                    String encodedAvatar = response.body().getEncodedAvatarData();
+                                    if (encodedAvatar!= null && !encodedAvatar.isEmpty())
+                                        BitmapUtil.saveUserAvatar(Base64.decode(encodedAvatar), mDirPath);
                                     startMainActivity();
+                                }
                                 else
                                     startLoginActivity();
                             }
