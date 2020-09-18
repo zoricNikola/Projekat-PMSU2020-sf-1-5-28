@@ -3,6 +3,8 @@ package com.example.projekat_pmsu2020_sf_1_5_28.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -20,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Tag;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.Base64;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -94,8 +98,19 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void setData (Message current, int position) {
             this.current = current;
+            if (current.getContactDisplayName() != null && !current.getContactDisplayName().isEmpty()) {
+                mSenderName.setText(current.getContactDisplayName());
+            }
+            else {
+                mSenderName.setText(current.getFrom());
+            }
 
-            mSenderName.setText(current.getFrom());
+            if (current.getEncodedContactPhoto() != null && !current.getEncodedContactPhoto().isEmpty()) {
+                byte[] photoData = Base64.decode(current.getEncodedContactPhoto());
+                Bitmap bitmap = BitmapFactory.decodeByteArray(photoData, 0, photoData.length);
+                mContactIcon.setImageBitmap(BitmapUtil.getCroppedBitmap(bitmap));
+            }
+
 
             mDateTime.setText(current.getDateTimeString());
 
@@ -123,9 +138,7 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
             for (Tag tag : current.getTags()) {
                 Chip chip = new Chip(mContext);
                 chip.setText(tag.getName());
-                Random rnd = new Random();
-                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-                chip.setChipBackgroundColor(ColorStateList.valueOf(color));
+                chip.setChipBackgroundColor(ColorStateList.valueOf(tag.getColor()));
                 mEmailTagsChipGroup.addView(chip);
             }
         }

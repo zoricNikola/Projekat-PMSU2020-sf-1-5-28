@@ -45,6 +45,12 @@ public class Message implements Serializable {
     @SerializedName("tags")
     @Expose
     private List<Tag> tags = null;
+    @SerializedName("contactDisplayName")
+    @Expose
+    private String contactDisplayName;
+    @SerializedName("encodedContactPhoto")
+    @Expose
+    private String encodedContactPhoto;
 
     public Message() {}
 
@@ -144,6 +150,22 @@ public class Message implements Serializable {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public String getContactDisplayName() {
+        return contactDisplayName;
+    }
+
+    public void setContactDisplayName(String contactDisplayName) {
+        this.contactDisplayName = contactDisplayName;
+    }
+
+    public String getEncodedContactPhoto() {
+        return encodedContactPhoto;
+    }
+
+    public void setEncodedContactPhoto(String encodedContactPhoto) {
+        this.encodedContactPhoto = encodedContactPhoto;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -33,6 +33,15 @@
                 android:layout_below="@+id/emailSubject"
                 android:layout_marginTop="10dp">
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/addTagChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    card_view:chipIcon="@drawable/ic_add"
+                    android:text="Add tag"
+                    android:textColor="@android:color/white"
+                    card_view:chipBackgroundColor="@color/colorPrimaryDark"/>
+
             </com.google.android.material.chip.ChipGroup>
 
             <RelativeLayout
@@ -44,8 +53,8 @@
 
                 <ImageView
                     android:id="@+id/contact_icon"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:src="@drawable/ic_user"/>
 
@@ -58,6 +67,7 @@
                     android:textStyle="bold"
                     android:layout_alignParentTop="true"
                     android:layout_toEndOf="@id/contact_icon"
+                    android:layout_toStartOf="@id/emailDateTime"
                     android:padding="2dp"
                     android:text="@string/sender"/>
 
@@ -104,7 +114,7 @@
                     android:textSize="15sp"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
-                    android:layout_below="@id/labelFrom"
+                    android:layout_below="@id/emailFrom"
                     android:layout_toEndOf="@id/contact_icon"
                     android:padding="2dp"
                     android:text="@string/CC" />
@@ -128,7 +138,7 @@
                     android:textSize="15sp"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
-                    android:layout_below="@id/labelCC"
+                    android:layout_below="@id/emailCC"
                     android:layout_toEndOf="@id/contact_icon"
                     android:padding="2dp"
                     android:text="@string/BCC" />
@@ -152,7 +162,7 @@
                     android:textSize="15sp"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
-                    android:layout_below="@id/labelBCC"
+                    android:layout_below="@id/emailBCC"
                     android:layout_toEndOf="@id/contact_icon"
                     android:padding="2dp"
                     android:text="@string/To" />

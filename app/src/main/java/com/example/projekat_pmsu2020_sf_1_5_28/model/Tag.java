@@ -14,13 +14,17 @@ public class Tag implements Serializable {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("color")
+    @Expose
+    private int color;
 
     public Tag() {}
 
-    public Tag(Long id, String name) {
+    public Tag(Long id, String name, int color) {
         super();
         this.id = id;
         this.name = name;
+        this.color = color;
     }
 
     public Long getId() {
@@ -37,6 +41,14 @@ public class Tag implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public static long getSerialversionuid() {

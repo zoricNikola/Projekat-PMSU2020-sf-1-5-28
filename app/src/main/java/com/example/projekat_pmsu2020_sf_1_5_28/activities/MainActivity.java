@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         mEmail.setText(acc.getUsername());
                         Bitmap avatar;
                         if ((avatar = BitmapUtil.getUserAvatar(mDirPath)) != null) {
-                            mUserAvatar.setImageBitmap(avatar);
+                            mUserAvatar.setImageBitmap(BitmapUtil.getCroppedBitmap(avatar));
                         }
                         if (appStarting)
                             navigationItemClicked(R.id.item_emails);

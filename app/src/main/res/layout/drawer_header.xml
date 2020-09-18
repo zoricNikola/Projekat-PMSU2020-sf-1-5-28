@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:background="@color/colorPrimaryDark"
-    android:padding="16dp">
+    android:padding="10dp">
 
 
     <ImageView
         android:id="@+id/userAvatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/ic_user"
         android:layout_alignParentBottom="true"
         android:clickable="true"
@@ -24,18 +24,17 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_toEndOf="@id/userAvatar"
-        android:layout_marginStart="10dp"
-        android:layout_above="@id/userEmail"/>
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"/>
 
     <TextView
         android:id="@+id/userEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Email"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:layout_toEndOf="@id/userAvatar"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_alignBottom="@id/userAvatar"/>
+        android:layout_below="@id/userUsername"
+        android:layout_marginStart="5dp"/>
 
 </RelativeLayout>

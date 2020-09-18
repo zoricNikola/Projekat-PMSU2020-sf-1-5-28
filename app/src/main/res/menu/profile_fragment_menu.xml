@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/item_switch_account"
+        android:title="@string/switch_account"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/item_save"
         android:title="@string/save"
         app:showAsAction="ifRoom"
@@ -10,10 +14,6 @@
     <item
         android:id="@+id/item_changePassword"
         android:title="@string/change_password"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/item_switch_account"
-        android:title="@string/switch_account"
         app:showAsAction="never"/>
 
 </menu>

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.tools.Base64;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 
 import java.io.File;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 

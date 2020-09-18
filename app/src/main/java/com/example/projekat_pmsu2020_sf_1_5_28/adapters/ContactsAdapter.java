@@ -3,7 +3,6 @@ package com.example.projekat_pmsu2020_sf_1_5_28.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.Base64;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     private List<Contact> mItems = new ArrayList<Contact>();
     private LayoutInflater inflater;
     private OnContactItemListener mOnContactItemListener;
+    private Context mContext;
 
     public ContactsAdapter (Context context, List<Contact> items, OnContactItemListener onContactItemListener) {
         this.inflater = LayoutInflater.from(context);
+        this.mContext = context;
         this.mItems = items;
         this.mOnContactItemListener = onContactItemListener;
     }
@@ -77,9 +80,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
         public void setData(Contact current, int position) {
             if (current.getEncodedPhotoData() != null && !current.getEncodedPhotoData().isEmpty()) {
-                byte[] photoData = Base64.decode(current.getEncodedPhotoData(), Base64.DEFAULT);
+                byte[] photoData = Base64.decode(current.getEncodedPhotoData());
                 Bitmap bitmap = BitmapFactory.decodeByteArray(photoData, 0, photoData.length);
-                mContactIcon.setImageBitmap(bitmap);
+                mContactIcon.setImageBitmap(BitmapUtil.getCroppedBitmap(bitmap));
             }
 
             this.current = current;

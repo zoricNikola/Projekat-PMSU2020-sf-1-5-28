@@ -218,7 +218,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                             if (mNewPicture != null) {
                                 BitmapUtil.saveUserAvatar(mNewPicture, mDirPath);
                             }
-                            ((ImageView) getActivity().findViewById(R.id.userAvatar)).setImageBitmap(BitmapUtil.readBitmapFromBytes(mNewPicture));
+                            ((ImageView) getActivity().findViewById(R.id.userAvatar)).setImageBitmap(BitmapUtil.getCroppedBitmapFromByteArray(mNewPicture));
                         }
                         else {
                             Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
