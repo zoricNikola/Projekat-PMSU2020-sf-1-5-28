@@ -15,6 +15,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/item_doRules"
+        android:title="@string/apply_rules"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/item_deleteFolder"
         android:title="@string/delete"
         app:showAsAction="never"/>

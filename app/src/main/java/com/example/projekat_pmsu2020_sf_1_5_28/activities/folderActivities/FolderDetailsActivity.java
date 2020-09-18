@@ -238,7 +238,7 @@ public class FolderDetailsActivity extends AppCompatActivity implements RulesAda
     }
 
     public boolean validate() {
-        if (mNameLayout.getError() == null && mAdapter.getItems().size() > 0)
+        if (mNameLayout.getError() == null /*&& mAdapter.getItems().size() > 0*/)
             return true;
         return false;
     }
@@ -334,27 +334,25 @@ public class FolderDetailsActivity extends AppCompatActivity implements RulesAda
     }
 
     private void updateCurrentFolder() {
-        if (!mCurrentFolder.getName().equals(mName.getText().toString().trim())) {
-            mCurrentFolder.setName(mName.getText().toString().trim());
-            Call<Folder> call = mService.updateFolder(mCurrentFolder.getId(), mCurrentFolder);
-            call.enqueue(new Callback<Folder>() {
-                @Override
-                public void onResponse(Call<Folder> call, Response<Folder> response) {
-                    if (response.code() == 200) {
-                        Toast.makeText(FolderDetailsActivity.this, "Folder name updated", Toast.LENGTH_SHORT).show();
-                        Folder folder = response.body();
-                        updateFolderRules(folder);
-                    } else {
-                        Toast.makeText(FolderDetailsActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Folder> call, Throwable t) {
+        mCurrentFolder.setName(mName.getText().toString().trim());
+        Call<Folder> call = mService.updateFolder(mCurrentFolder.getId(), mCurrentFolder);
+        call.enqueue(new Callback<Folder>() {
+            @Override
+            public void onResponse(Call<Folder> call, Response<Folder> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(FolderDetailsActivity.this, "Folder name updated", Toast.LENGTH_SHORT).show();
+                    Folder folder = response.body();
+                    updateFolderRules(folder);
+                } else {
                     Toast.makeText(FolderDetailsActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
+            }
 
+            @Override
+            public void onFailure(Call<Folder> call, Throwable t) {
+                Toast.makeText(FolderDetailsActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 }

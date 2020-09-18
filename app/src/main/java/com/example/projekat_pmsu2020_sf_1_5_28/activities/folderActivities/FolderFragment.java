@@ -223,6 +223,10 @@ public class FolderFragment extends Fragment {
                 Toast.makeText(getContext(),"Edit folder", Toast.LENGTH_SHORT).show();
                 startFolderDetailsActivity("editCurrentFolder");
                 return true;
+            case R.id.item_doRules:
+                Toast.makeText(getContext(),"Do rules", Toast.LENGTH_SHORT).show();
+                doRules();
+                return true;
             case R.id.item_deleteFolder:
                 if(currentFolder.getName().equals("Inbox") || currentFolder.getName().equals("Drafts")
                         || currentFolder.getName().equals("Sent")){
@@ -235,6 +239,23 @@ public class FolderFragment extends Fragment {
                 return true;
         }
         return false;
+    }
+
+    private void doRules() {
+        Call<Void> call = mService.doRules(currentFolder.getId());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 201) {
+                    Toast.makeText(getContext(),"Rules applied", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
 
     private void startFolderDetailsActivity(String mode){

@@ -58,6 +58,7 @@ public class ServiceUtils {
     public static final String GET_FOLDER_MESSAGES = "folders/{id}/messages";
     public static final String GET_FOLDER_CHILD_FOLDERS = "folders/{id}/childFolders";
     public static final String GET_FOLDER_RULES = "folders/{id}/rules";
+    public static final String DO_RULES = "folders/{id}/doRules";
     public static final String UPDATE_FOLDER_RULES = "folders/{id}/rules";
     public static final String CREATE_ROOT_FOLDER = "folders/{accountId}";
     public static final String CREATE_CHILD_FOLDER = "folders/{id}/childFolders";
