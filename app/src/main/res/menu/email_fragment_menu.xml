@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/item_attachment"
+        android:title="@string/Attachment"
+        android:actionLayout="@layout/menu_item_attachment_layout"
+        android:icon="@drawable/ic_attachment"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/item_reply"
         android:title="@string/reply"
         app:showAsAction="never"/>

@@ -13,7 +13,7 @@ public class Attachment implements Serializable {
     private Long id;
     @SerializedName("data")
     @Expose
-    private byte[] data;
+    private String data;
     @SerializedName("mimeType")
     @Expose
     private String mimeType;
@@ -23,7 +23,7 @@ public class Attachment implements Serializable {
 
     public Attachment() {}
 
-    public Attachment(Long id, byte[] data, String mimeType, String name) {
+    public Attachment(Long id, String data, String mimeType, String name) {
         super();
         this.id = id;
         this.data = data;
@@ -39,11 +39,11 @@ public class Attachment implements Serializable {
         this.id = id;
     }
 
-    public byte[] getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(byte[] data) {
+    public void setData(String data) {
         this.data = data;
     }
 

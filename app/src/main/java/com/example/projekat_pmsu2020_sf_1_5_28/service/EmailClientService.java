@@ -6,6 +6,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.LoginDTO;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.MessageData;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Rule;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Tag;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.TokenDTO;
@@ -165,7 +166,7 @@ public interface EmailClientService {
     Call<List<Attachment>> getMessageAttachments(@Path("id") Long id);
 
     @POST(ServiceUtils.CREATE_MESSAGE)
-    Call<Message> createMessage(@Path("accountId") Long accountId, @Body Message message);
+    Call<Message> createMessage(@Path("accountId") Long accountId, @Body MessageData messageData);
 
     @PUT(ServiceUtils.MARK_MESSAGE_AS_READ)
     Call<Boolean> markMessageAsRead(@Path("id") Long id);

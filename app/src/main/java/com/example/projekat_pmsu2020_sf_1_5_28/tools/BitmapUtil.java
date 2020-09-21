@@ -32,7 +32,7 @@ public class BitmapUtil {
 
     public static Bitmap readBitmapFromInputStream(InputStream inputStream, int requiredWidth, int requiredHeight) {
         try {
-            byte[] data = readBytes(inputStream);
+            byte[] data = FileUtil.readBytes(inputStream);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeByteArray(data, 0, data.length, options);
@@ -44,20 +44,6 @@ public class BitmapUtil {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static byte[] readBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-
-        int bufferSize = 1024;
-        byte[] buffer = new byte[bufferSize];
-
-        int len = 0;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-        }
-
-        return byteBuffer.toByteArray();
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {

@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Html;
 import android.text.InputType;
 import android.text.Spanned;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,20 +29,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Attachment;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Tag;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.Base64;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
+import com.example.projekat_pmsu2020_sf_1_5_28.tools.FileUtil;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -59,6 +66,9 @@ public class EmailFragment extends Fragment implements View.OnClickListener, Dia
     private EmailClientService mService;
     private SharedPreferences mSharedPreferences;
     private Chip mAddChip;
+    private List<Attachment> mAttachments;
+    private TextView mAttachmentsCounter;
+    String mDownloadsDir;
 
     public static EmailFragment newInstance() { return new EmailFragment();}
 
@@ -135,6 +145,10 @@ public class EmailFragment extends Fragment implements View.OnClickListener, Dia
 
         mService = ((MainActivity) getActivity()).getEmailClientService();
         mSharedPreferences = ((MainActivity) getActivity()).getSharedPreferences();
+
+        File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        mDownloadsDir = dir.getPath();
+        mAttachments = new ArrayList<>();
     }
 
     @Override
@@ -142,12 +156,29 @@ public class EmailFragment extends Fragment implements View.OnClickListener, Dia
         menu.clear();
         inflater.inflate(R.menu.email_fragment_menu, menu);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+
+        final MenuItem item = menu.findItem(R.id.item_attachment);
+        MenuItemCompat.setActionView(item, R.layout.menu_item_attachment_layout);
+        RelativeLayout badgeLayout = (RelativeLayout) MenuItemCompat.getActionView(item);
+        mAttachmentsCounter = (TextView) badgeLayout.findViewById(R.id.attachment_counter);
+        View icon = badgeLayout.findViewById(R.id.attachment_icon);
+        icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(item);
+            }
+        });
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.item_attachment:
+                Toast.makeText(getContext(),"Attachments", Toast.LENGTH_SHORT).show();
+                openAttachmentsDialog();
+                return true;
             case R.id.item_reply:
                 Toast.makeText(getContext(),"Reply", Toast.LENGTH_SHORT).show();
                 return true;
@@ -183,6 +214,7 @@ public class EmailFragment extends Fragment implements View.OnClickListener, Dia
                 @Override
                 public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                     if (response.code() == 200 && response.body()) {
+                        mMessage.setUnread(false);
                         Toast.makeText(getContext(),"Message marked as read", Toast.LENGTH_SHORT).show();
                     }
                     else
@@ -195,6 +227,24 @@ public class EmailFragment extends Fragment implements View.OnClickListener, Dia
                 }
             });
         }
+
+        Call<List<Attachment>> callA = mService.getMessageAttachments(mMessage.getId());
+        callA.enqueue(new Callback<List<Attachment>>() {
+            @Override
+            public void onResponse(Call<List<Attachment>> call, Response<List<Attachment>> response) {
+                if (response.code() == 200) {
+                    mAttachments.addAll(response.body());
+                    mAttachmentsCounter.setText(mAttachments.size() > 0 ? String.valueOf(mAttachments.size()) : "");
+                }
+                else
+                    Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<List<Attachment>> call, Throwable t) {
+                Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private UpdateTagsDialogFragment mUpdateDialog;
@@ -263,6 +313,52 @@ public class EmailFragment extends Fragment implements View.OnClickListener, Dia
 
             @Override
             public void onFailure(Call<Message> call, Throwable t) {
+                Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void openAttachmentsDialog() {
+        int count = mAttachments.size();
+        if (count > 0) {
+            final String[] items = new String[count];
+            for (int i = 0; i < count; i++) {
+                Attachment current = mAttachments.get(i);
+                String displayName = String.format("%s.%s", current.getName(), current.getMimeType());
+                items[i] = displayName;
+            }
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+
+            builder.setTitle("Attachments").setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getContext(),items[which], Toast.LENGTH_SHORT).show();
+                    saveAttachment(mAttachments.get(which).getId());
+                }
+            }).create().show();
+        }
+        else
+            Toast.makeText(getContext(),"There is no attachments", Toast.LENGTH_SHORT).show();
+    }
+
+    private void saveAttachment(Long attachmentId) {
+        Call<Attachment> call = mService.getAttachmentById(attachmentId);
+        call.enqueue(new Callback<Attachment>() {
+            @Override
+            public void onResponse(Call<Attachment> call, Response<Attachment> response) {
+                if (response.code() == 200) {
+                    Attachment attachment = response.body();
+                    File file = FileUtil.saveAsFile(Base64.decode(attachment.getData()), mDownloadsDir, attachment.getName());
+                    if (file != null) {
+                        FileUtil.openFile(getContext(), file);
+                    }
+                }
+                else
+                    Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Attachment> call, Throwable t) {
                 Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
             }
         });
