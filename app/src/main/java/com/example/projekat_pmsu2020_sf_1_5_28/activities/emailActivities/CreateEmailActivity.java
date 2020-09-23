@@ -34,6 +34,7 @@ import com.example.projekat_pmsu2020_sf_1_5_28.tools.BitmapUtil;
 import com.example.projekat_pmsu2020_sf_1_5_28.tools.FileUtil;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,6 +70,39 @@ public class CreateEmailActivity extends AppCompatActivity {
         mService = ServiceUtils.emailClientService(this);
         mSharedPreferences = getSharedPreferences(ServiceUtils.PREFERENCES_NAME, MODE_PRIVATE);
         mAttachments = new ArrayList<>();
+
+        int mode = getIntent().getIntExtra("mode", 0);
+        Message message = (Message) getIntent().getSerializableExtra("message");
+        long[] attachments = getIntent().getLongArrayExtra("attachments");
+        if (mode != 0 && message != null) {
+            if (mode == EmailFragment.NEW_MESSAGE_MODE_REPLY) {
+                mTo.setText(message.getFrom());
+                mContent.setText(String.format("\n\n Reply to: \n%s", message.getContent()));
+                if (attachments.length > 0)
+                    loadAttachments(attachments);
+            }
+            else if (mode == EmailFragment.NEW_MESSAGE_MODE_REPLY_ALL) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(message.getFrom());
+                if (message.getCc() != null && !message.getCc().isEmpty()) {
+                    sb.append(", ");
+                    sb.append(message.getCc());
+                }
+                if (message.getBcc() != null && !message.getBcc().isEmpty()) {
+                    sb.append(", ");
+                    sb.append(message.getBcc());
+                }
+                mTo.setText(sb.toString());
+                mContent.setText(String.format("\n\n Reply to: \n%s", message.getContent()));
+                if (attachments.length > 0)
+                    loadAttachments(attachments);
+            }
+            else if (mode == EmailFragment.NEW_MESSAGE_MODE_FORWARD) {
+                mContent.setText(message.getContent());
+                if (attachments.length > 0)
+                    loadAttachments(attachments);
+            }
+        }
     }
 
     private void setToolbar() {
@@ -225,6 +259,33 @@ public class CreateEmailActivity extends AppCompatActivity {
 
         return true;
     }
+
+    private void loadAttachments(long[] attachments) {
+        for (int i = 0; i < attachments.length; i++) {
+            loadAttachment(attachments[i]);
+        }
+    }
+
+    private void loadAttachment(long attachmentId) {
+        Call<Attachment> call = mService.getAttachmentById(attachmentId);
+        call.enqueue(new Callback<Attachment>() {
+            @Override
+            public void onResponse(Call<Attachment> call, Response<Attachment> response) {
+                if (response.code() == 200) {
+                    Attachment attachment = response.body();
+                    mAttachments.add(attachment);
+                }
+                else
+                    Toast.makeText(CreateEmailActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Attachment> call, Throwable t) {
+                Toast.makeText(CreateEmailActivity.this,"Something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     @Override
     protected void onStart() {

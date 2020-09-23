@@ -2,6 +2,7 @@ package com.example.projekat_pmsu2020_sf_1_5_28.activities.emailActivities;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.text.Html;
 import android.text.InputType;
 import android.text.Spanned;
@@ -36,6 +38,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.projekat_pmsu2020_sf_1_5_28.R;
 import com.example.projekat_pmsu2020_sf_1_5_28.activities.MainActivity;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Attachment;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Tag;
 import com.example.projekat_pmsu2020_sf_1_5_28.service.EmailClientService;
@@ -181,18 +184,23 @@ public class EmailFragment extends Fragment implements View.OnClickListener, Dia
                 return true;
             case R.id.item_reply:
                 Toast.makeText(getContext(),"Reply", Toast.LENGTH_SHORT).show();
+                startCreateEmailActivity(NEW_MESSAGE_MODE_REPLY);
                 return true;
             case R.id.item_replyAll:
                 Toast.makeText(getContext(),"Reply to all", Toast.LENGTH_SHORT).show();
+                startCreateEmailActivity(NEW_MESSAGE_MODE_REPLY_ALL);
                 return true;
             case R.id.item_forward:
                 Toast.makeText(getContext(),"Forward", Toast.LENGTH_SHORT).show();
+                startCreateEmailActivity(NEW_MESSAGE_MODE_FORWARD);
                 return true;
             case R.id.item_deleteEmail:
                 Toast.makeText(getContext(),"Delete email", Toast.LENGTH_SHORT).show();
+                openDeleteEmailDialog();
                 return true;
             case R.id.item_moveEmails:
                 Toast.makeText(getContext(),"Move email", Toast.LENGTH_SHORT).show();
+                openMoveEmailDialog();
                 return true;
             case R.id.item_changeTags:
                 Toast.makeText(getContext(),"Change tag", Toast.LENGTH_SHORT).show();
@@ -233,6 +241,7 @@ public class EmailFragment extends Fragment implements View.OnClickListener, Dia
             @Override
             public void onResponse(Call<List<Attachment>> call, Response<List<Attachment>> response) {
                 if (response.code() == 200) {
+                    mAttachments.removeAll(mAttachments);
                     mAttachments.addAll(response.body());
                     mAttachmentsCounter.setText(mAttachments.size() > 0 ? String.valueOf(mAttachments.size()) : "");
                 }
@@ -362,5 +371,113 @@ public class EmailFragment extends Fragment implements View.OnClickListener, Dia
                 Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void openMoveEmailDialog() {
+        SharedPreferences sharedPreferences = ((MainActivity) getActivity()).getSharedPreferences();
+        Long currentAccountId = sharedPreferences.getLong("currentAccountId", 0);
+
+        Call<List<Folder>> call = mService.getAccountFolders(currentAccountId);
+        call.enqueue(new Callback<List<Folder>>() {
+            @Override
+            public void onResponse(Call<List<Folder>> call, Response<List<Folder>> response) {
+                if (response.code() == 200) {
+                    final List<Folder> folders = response.body();
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+
+                    final String[] items = new String[folders.size()];
+                    for (int i = 0; i < folders.size(); i++) {
+                        Folder current = folders.get(i);
+                        String displayName = current.getName();
+                        items[i] = displayName;
+                    }
+
+                    builder.setTitle("Attachments").setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getContext(),items[which], Toast.LENGTH_SHORT).show();
+                            moveMessage(folders.get(which).getId());
+                        }
+                    }).create().show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Folder>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void moveMessage(Long folderId) {
+        Call<Message> call = mService.moveMessage(mMessage.getId(), folderId);
+        call.enqueue(new Callback<Message>() {
+            @Override
+            public void onResponse(Call<Message> call, Response<Message> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(getContext(),"Message moved", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Message> call, Throwable t) {
+                Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void openDeleteEmailDialog() {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+        builder.setTitle(R.string.delete_email)
+                .setMessage(R.string.delete_email_alert_message)
+                .setNeutralButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Call<Void> call = mService.removeMessage(mMessage.getId());
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.code() == 200) {
+                                    Toast.makeText(getContext(),"Message deleted", Toast.LENGTH_SHORT).show();
+                                    getActivity().onBackPressed();
+                                }
+                                else {
+                                    Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getContext(),"Something went wrong...", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).show();
+    }
+
+    public static int NEW_MESSAGE_MODE_REPLY = 1;
+    public static int NEW_MESSAGE_MODE_REPLY_ALL = 2;
+    public static int NEW_MESSAGE_MODE_FORWARD = 3;
+
+    public void startCreateEmailActivity(int mode) {
+        Toast.makeText(getActivity(), "Create email", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), CreateEmailActivity.class);
+        intent.putExtra("mode", mode);
+        intent.putExtra("message", mMessage);
+        long[] attachments = new long[mAttachments.size()];
+        for (int i = 0; i < mAttachments.size(); i++) {
+            attachments[i] = mAttachments.get(i).getId();
+        }
+        intent.putExtra("attachments", attachments);
+        startActivity(intent);
     }
 }

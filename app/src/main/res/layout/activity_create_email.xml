@@ -120,7 +120,7 @@
                 android:hint="@string/Content"
                 android:textSize="16sp"
                 android:gravity="top"
-                android:inputType="text|textImeMultiLine"
+                android:inputType="textMultiLine|textCapSentences"
                 android:background="@color/perfectDark"/>
 
         </com.google.android.material.textfield.TextInputLayout>
