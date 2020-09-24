@@ -80,6 +80,7 @@ public class ServiceUtils {
     public static final String UPDATE_MESSAGE_TAGS = "messages/{id}";
     public static final String MOVE_MESSAGE = "messages/{id}/moveTo/{folderId}";
     public static final String REMOVE_MESSAGE = "messages/{id}";
+    public static final String FILTER_MESSAGES = "messages/filter/{accountId}";
     //  --- END OF MESSAGES ---
 //  --- ATTACHMENTS ---
     public static final String GET_ATTACHMENT_BY_ID = "attachments/{id}";

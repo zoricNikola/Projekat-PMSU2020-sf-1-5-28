@@ -45,6 +45,8 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailViewH
         this.mOnEmailItemListener = mOnEmailItemListener;
     }
 
+    public List<Message> getItems() {return mItems;}
+
     @NonNull
     @Override
     public EmailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -336,9 +336,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 else
                     super.onBackPressed();
                 return true;
-            case R.id.item_search:
-                Toast.makeText(MainActivity.this, "Search clicked", Toast.LENGTH_SHORT).show();
-                return true;
+//            case R.id.item_search:
+//                Toast.makeText(MainActivity.this, "Search clicked", Toast.LENGTH_SHORT).show();
+//                return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -3,6 +3,7 @@ package com.example.projekat_pmsu2020_sf_1_5_28.service;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Account;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Attachment;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Contact;
+import com.example.projekat_pmsu2020_sf_1_5_28.model.FilterDTO;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Folder;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.LoginDTO;
 import com.example.projekat_pmsu2020_sf_1_5_28.model.Message;
@@ -182,6 +183,9 @@ public interface EmailClientService {
 
     @DELETE(ServiceUtils.REMOVE_MESSAGE)
     Call<Void> removeMessage(@Path("id") Long id);
+
+    @POST(ServiceUtils.FILTER_MESSAGES)
+    Call<List<Message>> filterMessages(@Path("accountId") Long accountId, @Body FilterDTO filter);
 
 //  --- END OF MESSAGES ---
 //  --- ATTACHMENTS ---
